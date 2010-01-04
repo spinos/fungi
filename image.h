@@ -28,6 +28,7 @@ extern "C" {
 
 void checkEXRDim(const char* filename, int* width, int* height);
 void readEXRRED(const char* filename, int width, int height, float* data);
+void saveEXRRGBA(const char* filename, int width, int height, float* data);
 
 #ifdef __cplusplus
 }

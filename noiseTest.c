@@ -157,8 +157,7 @@ void initTextures()
 		
 		for(v=50; v<78; v++) 
 			for(u=50; u<78; u++) texels[v*WIDTH+u] = 1;
-	readEXRRED("/Users/jianzhang/Desktop/Enterprise128.exr", WIDTH, HEIGHT, texels);
-	readEXRRED("/Users/jianzhang/Desktop/tomcat.exr", WIDTH, HEIGHT, texels);
+	readEXRRED("/Users/jianzhang/Pictures/tomcat.exr", WIDTH, HEIGHT, texels);
 	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE32F_ARB, WIDTH, HEIGHT, 0, GL_LUMINANCE, GL_FLOAT, texels);
 	

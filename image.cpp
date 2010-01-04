@@ -49,5 +49,60 @@ void readEXRRED(const char* filename, int width, int height, float* data)
 	delete[] rPixels;
 }
 
+void saveEXRRGBA(const char* filename, int width, int height, float* data)
+{
+	half *idr_r = new half[ width * height];
+	half *idr_g = new half[ width * height];
+	half *idr_b = new half[ width * height];
+	half *idr_a = new half[ width * height];
+	
+	for(int j=0; j< height; j++) {
+		int invj = height - 1 -j;
+		for(int i=0; i< width; i++) {
+			idr_r[j* width + i] = (half)data[(invj* width + i)*4];
+			idr_g[j* width + i] = (half)data[(invj* width + i)*4+1];
+			idr_b[j* width + i] = (half)data[(invj* width + i)*4+2];
+			idr_a[j* width + i] = (half)data[(invj* width + i)*4+3];
+		}
+	}
+// write exr
+	Header idrheader ( width,  height); 
 
+		idrheader.channels().insert ("R", Channel (HALF));
+		idrheader.channels().insert ("G", Channel (HALF));                                   // 1 
+        idrheader.channels().insert ("B", Channel (HALF));
+		idrheader.channels().insert ("A", Channel (HALF));                   // 2  
+    
+        OutputFile idrfile (filename, idrheader);                               // 4 
+        FrameBuffer idrframeBuffer;
+		 idrframeBuffer.insert ("R",                                // name   // 6 
+                            Slice (HALF,                        // type   // 7 
+                                   (char *) idr_r,            // base   // 8 
+                                   sizeof (*idr_r) * 1,       // xStride// 9 
+                                   sizeof (*idr_r) *  width));
+        idrframeBuffer.insert ("G",                                // name   // 6 
+                            Slice (HALF,                        // type   // 7 
+                                   (char *) idr_g,            // base   // 8 
+                                   sizeof (*idr_g) * 1,       // xStride// 9 
+                                   sizeof (*idr_g) *  width));
+		 idrframeBuffer.insert ("B",                                // name   // 6 
+                            Slice (HALF,                        // type   // 7 
+                                   (char *) idr_b,            // base   // 8 
+                                   sizeof (*idr_b) * 1,       // xStride// 9 
+                                   sizeof (*idr_b) *  width));
+		 idrframeBuffer.insert ("A",                                // name   // 6 
+                            Slice (HALF,                        // type   // 7 
+                                   (char *) idr_a,            // base   // 8 
+                                   sizeof (*idr_a) * 1,       // xStride// 9 
+                                   sizeof (*idr_a) *  width));
+       
+        idrfile.setFrameBuffer (idrframeBuffer);                                // 16 
+        idrfile.writePixels ( height); 
+        
+// cleanup
+	delete[] idr_r;
+	delete[] idr_g;
+	delete[] idr_b;
+	delete[] idr_a;
+}
 

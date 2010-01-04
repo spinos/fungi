@@ -15,7 +15,6 @@
 		7F8092A710EE7C15003E6793 /* WhiteNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F8092A610EE7C15003E6793 /* WhiteNoise.m */; };
 		7F87E00A10F0ECB30044350E /* FloatAttr.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F87E00910F0ECB30044350E /* FloatAttr.m */; };
 		7F87E29210F113160044350E /* SimpleNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F87E29110F113160044350E /* SimpleNoise.m */; };
-		7F978F2F10ECD3EC004368B0 /* noiseTest.c in Sources */ = {isa = PBXBuildFile; fileRef = 7F978F2E10ECD3EC004368B0 /* noiseTest.c */; };
 		7FC82DCA1092543E00DDA036 /* MyGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FC82DC91092543E00DDA036 /* MyGLView.m */; };
 		7FC82DD01092551900DDA036 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC82DCF1092551900DDA036 /* OpenGL.framework */; };
 		7FF9884B10F1D91400023442 /* WaveletNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9884A10F1D91400023442 /* WaveletNoise.m */; };
@@ -52,7 +51,6 @@
 		7F87E00910F0ECB30044350E /* FloatAttr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatAttr.m; sourceTree = "<group>"; };
 		7F87E29010F113160044350E /* SimpleNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleNoise.h; sourceTree = "<group>"; };
 		7F87E29110F113160044350E /* SimpleNoise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleNoise.m; sourceTree = "<group>"; };
-		7F978F2E10ECD3EC004368B0 /* noiseTest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = noiseTest.c; sourceTree = "<group>"; };
 		7FC82DC91092543E00DDA036 /* MyGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyGLView.m; sourceTree = "<group>"; };
 		7FC82DCF1092551900DDA036 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		7FF9884910F1D91400023442 /* WaveletNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveletNoise.h; sourceTree = "<group>"; };
@@ -144,14 +142,13 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				7F978F2E10ECD3EC004368B0 /* noiseTest.c */,
 				7FF9893010F1EA0300023442 /* zmath.h */,
 				7FF9893110F1EA0300023442 /* zmath.c */,
-				32CA4F630368D1EE00C91783 /* triangle_Prefix.pch */,
 				7F808DDE10EDF5E0003E6793 /* fft.h */,
 				7F808DDF10EDF5E0003E6793 /* fft.c */,
 				7F80903A10EE18C3003E6793 /* image.h */,
 				7F80903B10EE18C3003E6793 /* image.cpp */,
+				32CA4F630368D1EE00C91783 /* triangle_Prefix.pch */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -233,7 +230,6 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				7FC82DCA1092543E00DDA036 /* MyGLView.m in Sources */,
-				7F978F2F10ECD3EC004368B0 /* noiseTest.c in Sources */,
 				7F808DE010EDF5E0003E6793 /* fft.c in Sources */,
 				7F80903C10EE18C3003E6793 /* image.cpp in Sources */,
 				7F80918810EE6E18003E6793 /* TestPiece.m in Sources */,

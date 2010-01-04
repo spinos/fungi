@@ -9,6 +9,7 @@
 #import "FFTImage.h"
 #include "fft.h"
 #include "image.h"
+#include "zmath.h"
 
 @implementation FFTImage
 - (id) init
@@ -50,14 +51,14 @@
 - (void)initGL
 {
 	int w, h, u, v;
-	checkEXRDim("/Users/jianzhang/Desktop/tomcat.exr", &w, &h);
+	checkEXRDim("/Users/jianzhang/Pictures/foo.exr", &w, &h);
 	float *texels = malloc(w*h*sizeof(float));
-	readEXRRED("/Users/jianzhang/Desktop/tomcat.exr", w,h, texels);
+	readEXRRED("/Users/jianzhang/Pictures/foo.exr", w,h, texels);
 	
 	glGenTextures(1, &teximg);	
 	glBindTexture(GL_TEXTURE_2D, teximg);	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
@@ -76,14 +77,14 @@
 	
 	for(v=0; v<h; v++) {
 			for(u=0; u<w; u++) {
-				texels[Modi(v-h/2,h)*w+Modi(u-w/2,w)] = (w+h)/2*sqrt(comimg[v*w+u].real*comimg[v*w+u].real + comimg[v*w+u].imag * comimg[v*w+u].imag);
+				texels[ModIn(v-h/2,h)*w+ModIn(u-w/2,w)] = (w+h)/2*sqrt(comimg[v*w+u].real*comimg[v*w+u].real + comimg[v*w+u].imag * comimg[v*w+u].imag);
 			}
 		}
 		
 	glGenTextures(1, &fftimg);	
 	glBindTexture(GL_TEXTURE_2D, fftimg);	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 

@@ -5,11 +5,6 @@
 {
 	double lastFrameReferenceTime;
 	NSTimer *timer;
-
-	float dir;
-	
-	float knoise, zcam, freq, lacunarity, dimension;
-	int nslice;
 	
 	TestPiece *piece;
 	
@@ -18,9 +13,10 @@
 	NSPoint lastMousePoint;
 	
 	float eyex, eyey, eyez;
+	
+	GLuint fbo;
+	GLuint texfbo;
 }
-
-+ (NSOpenGLPixelFormat*) basicPixelFormat;
 
 - (void) updateProjection;
 - (void) updateModelView;
@@ -33,5 +29,7 @@
  
 - (TestPiece *)piece;
 - (void)setPiece:(TestPiece *) apiece;
+
+- (IBAction)snapshot:(id)sender;
 
 @end

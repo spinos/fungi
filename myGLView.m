@@ -3,9 +3,11 @@
 #import <OpenGL/glu.h>
 #import <OpenGL/glext.h>
 
-#import "noiseTest.h"
+#import "image.h"
 
-//GLhandleARB vertex_shader, fragment_shader, program_object;
+/*#import "noiseTest.h"
+
+GLhandleARB vertex_shader, fragment_shader, program_object;
 
 
 
@@ -151,7 +153,7 @@ const char *particleFS =
 "    gl_FragColor = vec4(gl_TexCoord[1].xyz*alpha , alpha);              \n"
 //"    gl_FragColor = vec4(gl_TexCoord[2].xyz*alpha , alpha);              \n"
 "} ";
-
+*/
 
 GLuint ibo;
 GLuint vbo;
@@ -159,315 +161,6 @@ GLuint tbo;
 static int n_pt = 41;
 float *pVertex;
 float *pCoord;
-
-static GLuint texname;
-
-float fSpriteX[3] = {-1.0, 0, 0};
-float fSpriteY[3] = {0, 1.0, 0};
-float fSpriteZ[3] = {0, 0.0, -1.0};
-
-static float offs;
-
-void drawAParticle(float center[], float radius, int detail)
-{
-	float pw[3], ox[3], oy[3];
-	ox[0] = fSpriteX[0] * radius*2;
-	ox[1] = fSpriteX[1] * radius*2;
-	ox[2] = fSpriteX[2] * radius*2;
-	
-	oy[0] = fSpriteY[0] * radius*2;
-	oy[1] = fSpriteY[1] * radius*2;
-	oy[2] = fSpriteY[2] * radius*2;
-	
-	int nslice = 3 + detail/5*2;
-	if(nslice > 19) nslice = 19;
-	float delta = 1.f / nslice;
-	//glUniform1fARB(glGetUniformLocationARB(program_object, "scale"), delta*2);
-	
-	float start[3];
-	
-	float z;
-	
-	glBegin(GL_QUADS);
-	int i;
-	for(i=0; i<nslice; i++) {
-			z = -1.0 + delta * (i+0.5f);
-			
-			start[0] = center[0] - fSpriteZ[0] * z;
-			start[1] = center[1] - fSpriteZ[1] * z;
-			start[2] = center[2] - fSpriteZ[2] * z;
-			
-			z += 0.5;
-			
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, -.5f, z);
-			
-			pw[0] = start[0] - ox[0] - oy[0];
-			pw[1] = start[1] - ox[1] - oy[1];
-			pw[2] = start[2] - ox[2] - oy[2];
-			
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, -.5f, z);
-			pw[0] = start[0] + ox[0] - oy[0];
-			pw[1] = start[1] + ox[1] - oy[1];
-			pw[2] = start[2] + ox[2] - oy[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, .5f, z);
-			pw[0] = start[0] + ox[0] + oy[0];
-			pw[1] = start[1] + ox[1] + oy[1];
-			pw[2] = start[2] + ox[2] + oy[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, .5f, z);
-			pw[0] = start[0] - ox[0] + oy[0];
-			pw[1] = start[1] - ox[1] + oy[1];
-			pw[2] = start[2] - ox[2] + oy[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-	}		
-	glEnd();
-}
-
-void draw2Particle(float center[], float radius, int detail)
-{
-	float pw[3], ox[3], oy[3];
-	ox[0] = fSpriteX[0] * radius*2;
-	ox[1] = fSpriteX[1] * radius*2;
-	ox[2] = fSpriteX[2] * radius*2;
-	
-	oy[0] = fSpriteY[0] * radius*2;
-	oy[1] = fSpriteY[1] * radius*2;
-	oy[2] = fSpriteY[2] * radius*2;
-	
-	int nslice = 5 + detail/5*2;
-	if(nslice > 19) nslice = 19;
-	float delta = 1.f / nslice;
-	//glUniform1fARB(glGetUniformLocationARB(program_object, "scale"), delta*2);
-	
-	float start[3];
-	
-	float z;
-	
-	glBegin(GL_QUADS);
-	int i;
-	float mf[3];
-	for(i=0; i<nslice; i++) {
-			z = -1.0 + delta * (i+0.5f);
-			
-			start[0] = center[0] - fSpriteZ[0] * z;
-			start[1] = center[1] - fSpriteZ[1] * z;
-			start[2] = center[2] - fSpriteZ[2] * z;
-			
-			z += 0.5;
-			
-			glMultiTexCoord3d(GL_TEXTURE1, 13.1f, .71f+offs, .61f);
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, -.5f, z);
-			glMultiTexCoord2d(GL_TEXTURE2, -.5f, -.5f);
-			
-			mf[0] = delta*2.0*(i-nslice/2);
-			mf[1] = delta*4.0*(i-nslice/2);
-			mf[2] = 0.f;
-			
-			pw[0] = start[0] - ox[0] - oy[0] +mf[0];
-			pw[1] = start[1] - ox[1] - oy[1] +mf[1];
-			pw[2] = start[2] - ox[2] - oy[2] +mf[2];
-			
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, -.5f, z);
-			glMultiTexCoord2d(GL_TEXTURE2, .5f, -.5f);
-			
-			pw[0] = start[0] + ox[0] - oy[0] +mf[0];
-			pw[1] = start[1] + ox[1] - oy[1] +mf[1];
-			pw[2] = start[2] + ox[2] - oy[2] +mf[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, .5f, z);
-			glMultiTexCoord2d(GL_TEXTURE2, .5f, .5f);
-			pw[0] = start[0] + ox[0] + oy[0] +mf[0];
-			pw[1] = start[1] + ox[1] + oy[1] +mf[1];
-			pw[2] = start[2] + ox[2] + oy[2] +mf[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, .5f, z);
-			glMultiTexCoord2d(GL_TEXTURE2, -.5f, .5f);
-			pw[0] = start[0] - ox[0] + oy[0] +mf[0];
-			pw[1] = start[1] - ox[1] + oy[1] +mf[1];
-			pw[2] = start[2] - ox[2] + oy[2] +mf[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			mf[0] = delta*2.0*(i-nslice/2+0.5);
-			mf[1] = delta*4.0*(i-nslice/2+0.5);
-			mf[2] = 0.f;
-			
-			pw[0] = start[0] - ox[0] - oy[0] +mf[0];
-			pw[1] = start[1] - ox[1] - oy[1] +mf[1];
-			pw[2] = start[2] - ox[2] - oy[2] +mf[2];
-			
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, -.5f, z);
-			glMultiTexCoord2d(GL_TEXTURE2, -.5f, -.5f);
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, -.5f, z);
-			glMultiTexCoord2d(GL_TEXTURE2, .5f, -.5f);
-			
-			pw[0] = start[0] + ox[0] - oy[0] +mf[0];
-			pw[1] = start[1] + ox[1] - oy[1] +mf[1];
-			pw[2] = start[2] + ox[2] - oy[2] +mf[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, .5f, z);
-			glMultiTexCoord2d(GL_TEXTURE2, .5f, .5f);
-			pw[0] = start[0] + ox[0] + oy[0] +mf[0];
-			pw[1] = start[1] + ox[1] + oy[1] +mf[1];
-			pw[2] = start[2] + ox[2] + oy[2] +mf[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, .5f, z);
-			glMultiTexCoord2d(GL_TEXTURE2, -.5f, .5f);
-			pw[0] = start[0] - ox[0] + oy[0] +mf[0];
-			pw[1] = start[1] - ox[1] + oy[1] +mf[1];
-			pw[2] = start[2] - ox[2] + oy[2] +mf[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			/*z = -1.0 + delta * (i+0.5f);
-			
-			start[0] = center[0] - fSpriteZ[0] * z - 1.5;
-			start[1] = center[1] - fSpriteZ[1] * z;
-			start[2] = center[2] - fSpriteZ[2] * z;
-			
-			z += 0.5;
-			glMultiTexCoord3d(GL_TEXTURE1, -12.41f, .21f+offs, .71f);
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, -.5f, z);
-			glMultiTexCoord2d(GL_TEXTURE0, -.5f, -.5f);
-			
-			pw[0] = start[0] - ox[0] - oy[0];
-			pw[1] = start[1] - ox[1] - oy[1];
-			pw[2] = start[2] - ox[2] - oy[2];
-			
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, -.5f, z);
-			glMultiTexCoord2d(GL_TEXTURE2, .5f, -.5f);
-			pw[0] = start[0] + ox[0] - oy[0];
-			pw[1] = start[1] + ox[1] - oy[1];
-			pw[2] = start[2] + ox[2] - oy[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, .5f, z);
-			glMultiTexCoord2d(GL_TEXTURE2, .5f, .5f);
-			pw[0] = start[0] + ox[0] + oy[0];
-			pw[1] = start[1] + ox[1] + oy[1];
-			pw[2] = start[2] + ox[2] + oy[2];
-			glVertex3f(pw[0], pw[1], pw[2]);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, .5f, z);
-			glMultiTexCoord2d(GL_TEXTURE0, -.5f, .5f);
-			pw[0] = start[0] - ox[0] + oy[0];
-			pw[1] = start[1] - ox[1] + oy[1];
-			pw[2] = start[2] - ox[2] + oy[2];
-			glVertex3f(pw[0], pw[1], pw[2]);*/
-	}		
-	glEnd();
-}
-
-static void draw2Slice()
-{
-
-//glUniform1fARB(glGetUniformLocationARB(program_object, "scale"), 0.1);
-	
-	//glUniform3fARB(glGetUniformLocationARB(program_object, "foo"), 0,1,0);
-	glBegin(GL_QUADS);
-		//glUniform3fARB(glGetUniformLocationARB(program_object, "foo"), 1,0,0);
-			glMultiTexCoord3d(GL_TEXTURE1, 13.1f, .71f+offs, .61f);
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, -.5f, 0);
-			glMultiTexCoord2d(GL_TEXTURE2, -.5f, -.5f);
-			
-			glVertex3f(-0.5, -0.25, 0);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, -.5f, 0);
-			glMultiTexCoord2d(GL_TEXTURE2, .5f, -.5f);
-			
-			glVertex3f(0, -0.25, 0);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, .5f, 0);
-			glMultiTexCoord2d(GL_TEXTURE2, .5f, .5f);
-			
-			glVertex3f(0, 0.25, 0);
-
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, .5f, 0);
-			glMultiTexCoord2d(GL_TEXTURE2, -.5f, .5f);
-			
-			glVertex3f(-0.5, 0.25, 0);
-			
-			glMultiTexCoord3d(GL_TEXTURE1, 13.21f, .71f+offs, .91f);
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, -.5f, 0);
-			glMultiTexCoord2d(GL_TEXTURE2, -.5f, -.5f);
-			
-			glVertex3f(0, -0.25, 0);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, -.5f, 0);
-			glMultiTexCoord2d(GL_TEXTURE2, .5f, -.5f);
-			
-			glVertex3f(0.5, -0.25, 0);
-			
-			glMultiTexCoord3d(GL_TEXTURE0, .5f, .5f, 0);
-			glMultiTexCoord2d(GL_TEXTURE2, .5f, .5f);
-			
-			glVertex3f(0.5, 0.25, 0);
-
-			glMultiTexCoord3d(GL_TEXTURE0, -.5f, .5f, 0);
-			glMultiTexCoord2d(GL_TEXTURE2, -.5f, .5f);
-			
-			glVertex3f(0, 0.25, 0);
-			
-			
-	glEnd();
-}
-
-static void drawAnObject ()
-{
-	glDisable(GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_3D);
-	glEnable(GL_BLEND);
-    glColor4f(1.0f, 1.f, 1.f, 1.f);
-    glBegin(GL_QUADS);
-   
-	//glColor4f(1.0f, 0, 0, 1.f);
-		glTexCoord3d(0, 0, 0.5);
-        glVertex3f(-0.5,  -0.5, 0.0);
-		glTexCoord3d(1, 0, 0.5);
-        glVertex3f(0.5, -0.5, 0.0);
-		glTexCoord3d(1, 1, 0.5);
-        glVertex3f(0.5, 0.5 ,0.0);
-		glTexCoord3d(0, 1, 0.5);
-        glVertex3f(-0.5, 0.5 ,0.0);
-	//glColor4f(0, 1.f, 0, 1.f);
-		glTexCoord3d(0, 0, 0.5-0.29);
-        glVertex3f(-0.5+0.2,  -0.5+0.2, 0.0+0.1);
-		glTexCoord3d(1, 0, 0.5-0.29);
-        glVertex3f(0.5+0.2, -0.5+0.2, 0.0+0.1);
-		glTexCoord3d(1, 1, 0.5-0.29);
-        glVertex3f(0.5+0.2, 0.5+0.2 ,0.0+0.1);
-		glTexCoord3d(0, 1, 0.5-0.29);
-        glVertex3f(-0.5+0.2, 0.5+0.2 ,0.0+0.1);
-	//glColor4f(0, 0, 1.f, 1.f);
-		glTexCoord3d(0, 0, 0.5+0.29);
-        glVertex3f(-0.5-0.2,  -0.5-0.2, 0.0+0.2);
-		glTexCoord3d(1, 0, 0.5+0.29);
-        glVertex3f(0.5-0.2, -0.5-0.2, 0.0+0.2);
-		glTexCoord3d(1, 1, 0.5+0.29);
-        glVertex3f(0.5-0.2, 0.5-0.2 ,0.0+0.2);
-		glTexCoord3d(0, 1, 0.5+0.29);
-        glVertex3f(-0.5-0.2, 0.5-0.2 ,0.0+0.2);
-
-    glEnd();
-	glDisable(GL_BLEND);
-	glDisable(GL_TEXTURE_3D);	
-	glEnable(GL_DEPTH_TEST);
-}
-
-
 
 float   gl_CoreVersion;
 typedef struct glExtension {
@@ -492,16 +185,7 @@ gl_Extension	extension[] = {
  
 @implementation myGLView
 
-+ (NSOpenGLPixelFormat*) basicPixelFormat
-{
-    NSOpenGLPixelFormatAttribute attributes [] = {
-        NSOpenGLPFAWindow,
-        NSOpenGLPFADoubleBuffer,	// double buffered
-        NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute)16, // 16 bit depth buffer
-        (NSOpenGLPixelFormatAttribute)nil
-    };
-    return [[[NSOpenGLPixelFormat alloc] initWithAttributes:attributes] autorelease];
-}
+
 
 - (void) resizeGL
 {
@@ -764,7 +448,7 @@ gl_Extension	extension[] = {
 }*/
 
 - (void) drawRect:(NSRect)rect
-{		
+{
 	// setup viewport and prespective
 	[self resizeGL]; // forces projection matrix update (does test for size changes)
 	[self updateModelView];  // update model view matrix for object
@@ -782,47 +466,11 @@ gl_Extension	extension[] = {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	// model view and projection matricies already set
-glTranslatef(0,0,0);
 
-	//glUseProgram(program);
-	
-	float mm[16];
-	
-	float ang = 0.f;
-	
-		mm[0] = cos(ang); mm[1] = 0.f; mm[2] = sin(ang); mm[3] = 0.f;
-		
-		
-		
-		mm[4] = 0.f; mm[5] = 1.f; mm[6] = 0.f; mm[7] = 0.f;
-		
-		ang += 0.5*3.14;
-		mm[8] = cos(ang); mm[9] = 0.f; mm[10] = sin(ang); mm[11] = 0.f;
-		
-		mm[12] = 0.f; mm[13] = 1.f; mm[14] = 0.f; mm[15] = 1.f;
-		
-		//glUniformMatrix4fv(glGetUniformLocation(program, "objspace"), 1, 0, (float*)mm);
-		
-
-//glUniform1f(glGetUniformLocation(program, "Lacunarity"), 2.0);
-		//glUniform1f(glGetUniformLocation(program, "Dimension"), 1.8);
-	/*	float ang = (posz+0.5)*3.14;
-		//float xx = cos(ang)*0.5;
-		//float zz = sin(ang)*0.5;
-		ang = 0.0;
-				
-		//glUniform3fARB(glGetUniformLocationARB(program_object, "Origin"), 29.3, -134.1, 3.5);
-		glUniform3fARB(glGetUniformLocationARB(program_object, "LightPosition"), -130.0, 100, -11.0);
-		glUniform1fARB(glGetUniformLocationARB(program_object, "KNoise"), knoise);
-		glUniform3fARB(glGetUniformLocationARB(program_object, "CIBL"), 0.0, 0.4, 0.3);
-		glUniform1fARB(glGetUniformLocationARB(program_object, "gscale"), 20.0);
-		glUniform1fARB(glGetUniformLocationARB(program_object, "VFreq"), freq);
-		*/
 
 	//glEnable(GL_BLEND);
-	glDepthMask( GL_FALSE );
+	//glDepthMask( GL_FALSE );
 	
-	//drawTexQuad();
 	
 	
 	if(piece) {
@@ -908,7 +556,7 @@ glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glVertex3f(pw[0], pw[1], pw[2]);
 	
 	glEnd();*/
-	glDepthMask( GL_TRUE );	
+	//glDepthMask( GL_TRUE );	
 
 
 	//glDisable(GL_BLEND);
@@ -927,14 +575,10 @@ glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
 - (void) prepareOpenGL
 {
-   // long swapInt = 1;
-
-    //[[self openGLContext] setValues:&swapInt forParameter:NSOpenGLCPSwapInterval]; // set to vbl sync
-
 	// init GL stuff here
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_DEPTH_TEST);
-glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+glEnable(GL_TEXTURE_2D);
 	    
 	// front-to-back
 	glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_ONE);
@@ -951,7 +595,7 @@ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	//glPolygonOffset (1.0f, 1.0f);
 	
 	glClearColor(0.2f, 0.2f,0.2f, 0.0f);
-	
+/*	
 	glGenTextures(1, &texname);	
 	glBindTexture(GL_TEXTURE_3D, texname);	
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -976,7 +620,7 @@ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	}
 	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, WIDTH, HEIGHT, DEPTH, 0, GL_RGBA, GL_UNSIGNED_BYTE, texels);
 	free(texels);
-	/*float tc;
+	float tc;
 	texels = malloc(WIDTH*HEIGHT*4*sizeof(float));
 		for(v=0; v<HEIGHT; v++) {
 			for(u=0; u<WIDTH; u++) {
@@ -1024,17 +668,17 @@ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	
 // setup shaders
 	
-	GLint statshader = initShaders();
-	if (!statshader) NSLog(@"shaders not compiled");
+	//GLint statshader = initShaders();
+	//if (!statshader) NSLog(@"shaders not compiled");
 	
-	initTextures();
+	//initTextures();
 
 	//glUseProgram(program);
 		//glUniform3fARB(glGetUniformLocationARB(program_object, "Origin"), 13.3, 3.1, -13.5);
 		//glUniform1i(glGetUniformLocation(program, "EarthNight"), 0);
-		glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_3D, texname);
-	glUseProgram(0);
+		//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_3D, texname);
+	//glUseProgram(0);
 	
 // create index buffer
 	glGenBuffers(1, &ibo);
@@ -1077,6 +721,25 @@ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	size = n_pt * sizeof(float) * 4;
         glBufferData(GL_ARRAY_BUFFER, size, pCoord, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+		
+// create fbo
+	glGenFramebuffersEXT(1, &fbo);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbo);
+	
+	glGenTextures(1, &texfbo);
+	glBindTexture(GL_TEXTURE_2D, texfbo);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F_ARB, 512, 512, 0, GL_RGBA, GL_FLOAT, 0);
+	glTexParameterf(GL_TEXTURE_2D, 
+					GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, 
+					GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, 
+					GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, 
+					GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+					
+	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, texfbo, 0);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
 
 - (void) heartbeat
@@ -1087,12 +750,21 @@ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 
 -(id) initWithFrame: (NSRect) frameRect
 {
-	NSOpenGLPixelFormat * pf = [myGLView basicPixelFormat];
-
-	[super initWithFrame: frameRect pixelFormat: pf];
-	
+		NSOpenGLPixelFormatAttribute attribs [] = {
+		NSOpenGLPFADoubleBuffer,
+		NSOpenGLPFADepthSize, 24,
+		NSOpenGLPFAStencilSize, 8,
+		0
+   };
+   NSOpenGLPixelFormat *fmt;
+   
+   fmt = [[NSOpenGLPixelFormat alloc] initWithAttributes: attribs];
+   [super initWithFrame: frameRect pixelFormat: fmt];
+   [[super openGLContext] makeCurrentContext];
+   [fmt release];
+   
 	/* Create an update timer */
-	timer = [NSTimer scheduledTimerWithTimeInterval: (1.0f/30.0f) target: self
+	timer = [NSTimer scheduledTimerWithTimeInterval: (1.0f/150.0f) target: self
                     selector: @selector(heartbeat) userInfo: nil
                     repeats: YES];
 	[timer retain];
@@ -1100,21 +772,13 @@ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	[[NSRunLoop currentRunLoop] addTimer: timer forMode: NSDefaultRunLoopMode];
 	[[NSRunLoop currentRunLoop] addTimer: timer forMode: NSEventTrackingRunLoopMode];
 	
-	dir = -1.f;
-	knoise = 0.f;
-	zcam = 0.f;
-	nslice = 25;
-	freq = 1.0;
-	lacunarity = 1.25;
-	dimension = 0.0;
-	offs = 0.f;
-	
 	eyex = 0.f;
 	 eyey = 0.f;
 	  eyez = 2.f;
 	
 	piece = NULL;
-    return self;
+	
+	return self;
 }
 
 - (TestPiece *)piece 
@@ -1189,6 +853,41 @@ glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 	lastMousePoint = mouse;
 
 	[self setNeedsDisplay:YES];
+}
+
+- (IBAction)snapshot:(id)sender
+{
+	NSLog(@"record");
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbo);
+	glViewport(0,0,512, 512);
+	glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
+	
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();	
+	glOrtho(-1.0, 1.0, -1.0, 1.0, 1.0, 100.0);
+	glMatrixMode(GL_MODELVIEW);
+	
+	glLoadIdentity();
+		gluLookAt(0,0,2,
+				  0,0,0,
+				  0,1,0);
+				  
+	glClear(GL_COLOR_BUFFER_BIT);
+	
+	if(piece) {
+		if(![piece isGLInited]) [piece initGL];
+		[piece draw];
+	}
+	
+	glReadBuffer(GL_COLOR_ATTACHMENT0_EXT);        
+
+	float *tmp = malloc(512*512*4*sizeof(float));
+	glReadPixels( 0, 0, 512, 512, GL_RGBA, GL_FLOAT, tmp);
+	
+	saveEXRRGBA("/Users/jianzhang/Desktop/foo.exr", 512, 512, tmp);
+
+	free(tmp);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
 
 @end
