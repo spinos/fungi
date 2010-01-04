@@ -1,0 +1,23 @@
+//
+//  SimpleNoise.h
+//  triangle
+//
+//  Created by jian zhang on 1/2/10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//
+
+#import <Cocoa/Cocoa.h>
+
+#import "TestPiece.h"
+
+@interface WaveletNoise : TestPiece {
+	GLuint texname;
+	int poolw, poolh;
+}
+
+- (id) init;
+
+- (void)draw;
+- (void)initGL;
+- (void)uniformParam;
+@end
