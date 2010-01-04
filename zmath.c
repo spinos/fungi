@@ -46,14 +46,14 @@ float upSample2D(int x, int y, int width, int height, float *data)
 	int i, u, v;
 	float sum = 0;
 	for(i = 0; i< UPSAMPLEFILTERSIZE; i++) {
-		u = x + i - 2; u = ModIn(u/2, width);
+		u = x + i - 1; u = ModIn(u/2, width);
 		v = y/2;
 		sum += data[v*width+ u] * upSampleFilterCoeffs[i];
 	}
 	
 	for(i = 0; i< UPSAMPLEFILTERSIZE; i++) {
 		u = x/2;
-		v = y + i - 2; v = ModIn(v/2, height);
+		v = y + i - 1; v = ModIn(v/2, height);
 		sum += data[v*width+ u] * upSampleFilterCoeffs[i];
 	}
 

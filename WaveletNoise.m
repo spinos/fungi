@@ -7,9 +7,9 @@
 //
 
 #import "WaveletNoise.h"
-/*
 
-*/
+#import "zmath.h"
+
 @implementation WaveletNoise
 - (id) init
 {
@@ -28,7 +28,7 @@
 
 "void main(void)"
 "{"
-"    TexCoord        = (gl_MultiTexCoord0.xyz + vec3(-31.7, -19.1, 23.7))*Frequency;"
+"    TexCoord        = (gl_MultiTexCoord0.xyz + vec3(-31.792, -19.133, 23.467))*Frequency;"
 "    gl_Position     = ftransform();"
 "}";
 
@@ -42,25 +42,25 @@
 "float fractal_func(vec2 pcoord)"
 "{"
 "	float f=1.0;"
-"	float fractal = texture2D(WhiteNoise, pcoord).r;" 
+"	float fractal = texture2D(WhiteNoise, pcoord).r*0.5 + 0.5;" 
 
 "	f*= Lacunarity;"
 
-"	fractal += (texture2D(WhiteNoise, pcoord*f).r- 0.5 )/pow(f, Dimension);" 
+"	fractal += texture2D(WhiteNoise, pcoord*f).r/pow(f, Dimension);" 
 
 
 "	f*= Lacunarity;"
 
-"	fractal += (texture2D(WhiteNoise, pcoord*f).r- 0.5 )/pow(f, Dimension);" 
+"	fractal += texture2D(WhiteNoise, pcoord*f).r/pow(f, Dimension);" 
 
 "	f*= Lacunarity;"
 
-"	fractal += (texture2D(WhiteNoise, pcoord*f).r- 0.5 )/pow(f, Dimension);" 
+"	fractal += texture2D(WhiteNoise, pcoord*f).r/pow(f, Dimension);" 
 
 "	f*= Lacunarity;"
 
-"	fractal += (texture2D(WhiteNoise, pcoord*f).r- 0.5 )/pow(f, Dimension);" 
-"return fractal;"
+"	fractal += texture2D(WhiteNoise, pcoord*f).r/pow(f, Dimension);" 
+"return clamp(fractal,0.0, 1.0);"
 "}"
 
 "void main (void)"
@@ -122,7 +122,7 @@
 	
 	for(v=0; v<poolh; v++) {
 		for(u=0; u<poolw; u++) {
-			texels[v*poolw+u] = (float)(random()%1931)/1931.f;
+			texels[v*poolw+u] = (float)(random()%901)/901.f;
 		}
 	}
 	
@@ -133,8 +133,36 @@
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE32F_ARB, poolw, poolh, 0, GL_LUMINANCE, GL_FLOAT, texels);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE32F_ARB, poolw, poolh, 0, GL_LUMINANCE, GL_FLOAT, texels);
 	
+	int w = poolw, h = poolh;
+	
+	float *down_pix = malloc(w/2*h/2*sizeof(float));
+	
+		for(v=0; v<h/2; v++) {
+			for(u=0; u<w/2; u++) {
+				down_pix[v*w/2+u] = downSample2D(u, v, w, h, texels);
+			}
+		}
+	
+	float *up_pix = malloc(w*h*sizeof(float));
+	
+		for(v=0; v<h; v++) {
+			for(u=0; u<w; u++) {
+				up_pix[v*w+u] = upSample2D(u, v, w/2, h/2, down_pix);
+			}
+		}
+	
+	for(v=0; v<poolh; v++) {
+		for(u=0; u<poolw; u++) {
+			texels[v*poolw+u] = texels[v*poolw+u] - up_pix[v*poolw+u];
+		}
+	}
+	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE16F_ARB, w, h, 0, GL_LUMINANCE, GL_FLOAT, texels);
+	
+	free(up_pix);
+	free(down_pix);
 	free(texels);
 	
 	[self initShaders];

@@ -48,7 +48,7 @@
 	glEnd();
 	
 	glBindTexture(GL_TEXTURE_2D, upname);
-	glTranslatef(2.01,0,0);
+	glTranslatef(-2.01,-2.01,0);
 	glBegin(GL_QUADS);
 	glMultiTexCoord3f(GL_TEXTURE0, 0, 0, 0);
 	glVertex3f(-1, -1, 0);

@@ -77,7 +77,7 @@
 	
 	for(v=0; v<h; v++) {
 			for(u=0; u<w; u++) {
-				texels[ModIn(v-h/2,h)*w+ModIn(u-w/2,w)] = (w+h)/2*sqrt(comimg[v*w+u].real*comimg[v*w+u].real + comimg[v*w+u].imag * comimg[v*w+u].imag);
+				texels[ModIn(v-h/2,h)*w+ModIn(u-w/2,w)] = w/2*sqrt(comimg[v*w+u].real*comimg[v*w+u].real + comimg[v*w+u].imag * comimg[v*w+u].imag);
 			}
 		}
 		
