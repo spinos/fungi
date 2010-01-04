@@ -19,6 +19,8 @@
 		7FC82DCA1092543E00DDA036 /* MyGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FC82DC91092543E00DDA036 /* MyGLView.m */; };
 		7FC82DD01092551900DDA036 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC82DCF1092551900DDA036 /* OpenGL.framework */; };
 		7FF9884B10F1D91400023442 /* WaveletNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9884A10F1D91400023442 /* WaveletNoise.m */; };
+		7FF9891210F1E89200023442 /* DownUpSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9891110F1E89200023442 /* DownUpSample.m */; };
+		7FF9893210F1EA0300023442 /* zmath.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9893110F1EA0300023442 /* zmath.c */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -55,8 +57,12 @@
 		7FC82DCF1092551900DDA036 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		7FF9884910F1D91400023442 /* WaveletNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveletNoise.h; sourceTree = "<group>"; };
 		7FF9884A10F1D91400023442 /* WaveletNoise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaveletNoise.m; sourceTree = "<group>"; };
+		7FF9891010F1E89200023442 /* DownUpSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownUpSample.h; sourceTree = "<group>"; };
+		7FF9891110F1E89200023442 /* DownUpSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownUpSample.m; sourceTree = "<group>"; };
+		7FF9893010F1EA0300023442 /* zmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zmath.h; sourceTree = "<group>"; };
+		7FF9893110F1EA0300023442 /* zmath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zmath.c; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8D1107320486CEB800E47090 /* triangle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = triangle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1107320486CEB800E47090 /* fungi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fungi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +81,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7FF9891010F1E89200023442 /* DownUpSample.h */,
+				7FF9891110F1E89200023442 /* DownUpSample.m */,
 				7FF9884910F1D91400023442 /* WaveletNoise.h */,
 				7FF9884A10F1D91400023442 /* WaveletNoise.m */,
 				7F87E29010F113160044350E /* SimpleNoise.h */,
@@ -116,7 +124,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D1107320486CEB800E47090 /* triangle.app */,
+				8D1107320486CEB800E47090 /* fungi.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -137,6 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				7F978F2E10ECD3EC004368B0 /* noiseTest.c */,
+				7FF9893010F1EA0300023442 /* zmath.h */,
+				7FF9893110F1EA0300023442 /* zmath.c */,
 				32CA4F630368D1EE00C91783 /* triangle_Prefix.pch */,
 				7F808DDE10EDF5E0003E6793 /* fft.h */,
 				7F808DDF10EDF5E0003E6793 /* fft.c */,
@@ -169,9 +179,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D1107260486CEB800E47090 /* triangle */ = {
+		8D1107260486CEB800E47090 /* fungi */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "triangle" */;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "fungi" */;
 			buildPhases = (
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
@@ -181,10 +191,10 @@
 			);
 			dependencies = (
 			);
-			name = triangle;
+			name = fungi;
 			productInstallPath = "$(HOME)/Applications";
 			productName = triangle;
-			productReference = 8D1107320486CEB800E47090 /* triangle.app */;
+			productReference = 8D1107320486CEB800E47090 /* fungi.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -199,7 +209,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* triangle */,
+				8D1107260486CEB800E47090 /* fungi */,
 			);
 		};
 /* End PBXProject section */
@@ -233,6 +243,8 @@
 				7F87E00A10F0ECB30044350E /* FloatAttr.m in Sources */,
 				7F87E29210F113160044350E /* SimpleNoise.m in Sources */,
 				7FF9884B10F1D91400023442 /* WaveletNoise.m in Sources */,
+				7FF9891210F1E89200023442 /* DownUpSample.m in Sources */,
+				7FF9893210F1EA0300023442 /* zmath.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,7 +297,7 @@
 				GCC_PREFIX_HEADER = triangle_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = triangle;
+				PRODUCT_NAME = fungi;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -327,7 +339,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "triangle" */ = {
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "fungi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,

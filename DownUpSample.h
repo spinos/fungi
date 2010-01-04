@@ -12,7 +12,8 @@
 
 @interface DownUpSample : TestPiece {
 	GLuint texname;
-	
+	GLuint downname;
+	GLuint upname;
 }
 
 - (id) init;

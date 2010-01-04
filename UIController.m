@@ -11,6 +11,7 @@
 #import "FFTImage.h"
 #import "SimpleNoise.h"
 #import "WaveletNoise.h"
+#import "DownUpSample.h"
 
 @implementation UIController
 
@@ -23,6 +24,7 @@
 	[[FFTImage alloc] init],
 	[[SimpleNoise alloc] init],
 	[[WaveletNoise alloc] init],
+	[[DownUpSample alloc] init],
 	nil];
 	
 	[pieces retain];
