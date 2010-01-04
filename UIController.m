@@ -12,6 +12,7 @@
 #import "SimpleNoise.h"
 #import "WaveletNoise.h"
 #import "DownUpSample.h"
+#import "ScalarFBO.h"
 
 @implementation UIController
 
@@ -25,6 +26,7 @@
 	[[SimpleNoise alloc] init],
 	[[WaveletNoise alloc] init],
 	[[DownUpSample alloc] init],
+	[[ScalarFBO alloc] init],
 	nil];
 	
 	[pieces retain];

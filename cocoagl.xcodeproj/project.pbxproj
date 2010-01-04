@@ -20,6 +20,7 @@
 		7FF9884B10F1D91400023442 /* WaveletNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9884A10F1D91400023442 /* WaveletNoise.m */; };
 		7FF9891210F1E89200023442 /* DownUpSample.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9891110F1E89200023442 /* DownUpSample.m */; };
 		7FF9893210F1EA0300023442 /* zmath.c in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9893110F1EA0300023442 /* zmath.c */; };
+		7FF98B3D10F2904F00023442 /* ScalarFBO.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FF98B3C10F2904F00023442 /* ScalarFBO.m */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -59,6 +60,8 @@
 		7FF9891110F1E89200023442 /* DownUpSample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownUpSample.m; sourceTree = "<group>"; };
 		7FF9893010F1EA0300023442 /* zmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zmath.h; sourceTree = "<group>"; };
 		7FF9893110F1EA0300023442 /* zmath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zmath.c; sourceTree = "<group>"; };
+		7FF98B3B10F2904F00023442 /* ScalarFBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScalarFBO.h; sourceTree = "<group>"; };
+		7FF98B3C10F2904F00023442 /* ScalarFBO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScalarFBO.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* fungi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fungi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -79,6 +82,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7FF98B3B10F2904F00023442 /* ScalarFBO.h */,
+				7FF98B3C10F2904F00023442 /* ScalarFBO.m */,
 				7FF9891010F1E89200023442 /* DownUpSample.h */,
 				7FF9891110F1E89200023442 /* DownUpSample.m */,
 				7FF9884910F1D91400023442 /* WaveletNoise.h */,
@@ -241,6 +246,7 @@
 				7FF9884B10F1D91400023442 /* WaveletNoise.m in Sources */,
 				7FF9891210F1E89200023442 /* DownUpSample.m in Sources */,
 				7FF9893210F1EA0300023442 /* zmath.c in Sources */,
+				7FF98B3D10F2904F00023442 /* ScalarFBO.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

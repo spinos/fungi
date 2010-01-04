@@ -449,6 +449,10 @@ gl_Extension	extension[] = {
 
 - (void) drawRect:(NSRect)rect
 {
+	if(piece) {
+		if(![piece isGLInited]) [piece initGL];
+		[piece preflight];
+	}
 	// setup viewport and prespective
 	[self resizeGL]; // forces projection matrix update (does test for size changes)
 	[self updateModelView];  // update model view matrix for object

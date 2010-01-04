@@ -30,6 +30,11 @@
 	name = aname;
 }
 
+- (void)preflight
+{
+
+}
+
 - (void) draw
 {
 

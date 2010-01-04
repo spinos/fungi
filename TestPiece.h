@@ -29,6 +29,7 @@
 - (NSString *) name;
 - (void)setName:(NSString *) aname;
 - (void) draw;
+- (void)preflight;
 - (void)initGL;
 - (void)initShaders;
 - (BOOL)isGLInited;
