@@ -13,6 +13,8 @@
 @interface RayMarch : TestPiece {
 	GLuint itex;
 	GLuint ifbo;
+	GLuint voltex;
+	GLuint noitex;
 }
 
 - (id) init;

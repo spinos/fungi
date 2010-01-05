@@ -12,4 +12,8 @@
 
 float downSample2D(int x, int y, int width, int height, float *data);
 float upSample2D(int x, int y, int width, int height, float *data);
+
+float downSample3D(int x, int y, int z, int width, int height, int depth, float *data);
+float upSample3D(int x, int y, int z, int width, int height, int depth, float *data);
+
 #endif

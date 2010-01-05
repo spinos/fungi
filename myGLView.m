@@ -768,7 +768,7 @@ glEnable(GL_TEXTURE_2D);
    [fmt release];
    
 	/* Create an update timer */
-	timer = [NSTimer scheduledTimerWithTimeInterval: (1.0f/150.0f) target: self
+	timer = [NSTimer scheduledTimerWithTimeInterval: (1.0f/60.0f) target: self
                     selector: @selector(heartbeat) userInfo: nil
                     repeats: YES];
 	[timer retain];

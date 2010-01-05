@@ -60,3 +60,58 @@ float upSample2D(int x, int y, int width, int height, float *data)
 	sum /= 2.0;
 	return sum;
 }
+
+float downSample3D(int x, int y, int z, int width, int height, int depth, float *data)
+{
+	int i, u, v, w;
+	float sum = 0;
+	for(i = 0; i< DOWNSAMPLEFILTERSIZE; i++) {
+		u = x*2 + i - 15; u = ModIn(u, width);
+		v = y*2;
+		w = z*2;
+		sum += data[w*width*height+ v*width + u] * downSampleFilterCoeffs[i];
+	}
+	for(i = 0; i< DOWNSAMPLEFILTERSIZE; i++) {
+		u = x*2;
+		v = y*2 + i - 15; v = ModIn(v, height);
+		w = z*2;
+		sum += data[w*width*height+ v*width+ u] * downSampleFilterCoeffs[i];
+	}
+	for(i = 0; i< DOWNSAMPLEFILTERSIZE; i++) {
+		u = x*2;
+		v = y*2;
+		w = z*2 + i - 15; w = ModIn(w, depth);
+		sum += data[w*width*height+ v*width+ u] * downSampleFilterCoeffs[i];
+	}
+	sum /= 3.0;
+	return sum;
+}
+
+float upSample3D(int x, int y, int z, int width, int height, int depth, float *data)
+{
+	int i, u, v, w;
+	float sum = 0;
+	for(i = 0; i< UPSAMPLEFILTERSIZE; i++) {
+		u = x + i - 1; u = ModIn(u/2, width);
+		v = y/2;
+		w = z/2;
+		sum += data[w*width*height + v*width+ u] * upSampleFilterCoeffs[i];
+	}
+	
+	for(i = 0; i< UPSAMPLEFILTERSIZE; i++) {
+		u = x/2;
+		v = y + i - 1; v = ModIn(v/2, height);
+		w = z/2;
+		sum += data[w*width*height + v*width+ u] * upSampleFilterCoeffs[i];
+	}
+	
+	for(i = 0; i< UPSAMPLEFILTERSIZE; i++) {
+		u = x/2;
+		v = y/2;
+		w = z + i - 1; w = ModIn(w/2, height);
+		sum += data[w*width*height + v*width+ u] * upSampleFilterCoeffs[i];
+	}
+
+	sum /= 3.0;
+	return sum;
+}
