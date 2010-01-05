@@ -13,6 +13,7 @@
 #import "WaveletNoise.h"
 #import "DownUpSample.h"
 #import "ScalarFBO.h"
+#import "RayMarch.h"
 
 @implementation UIController
 
@@ -27,6 +28,7 @@
 	[[WaveletNoise alloc] init],
 	[[DownUpSample alloc] init],
 	[[ScalarFBO alloc] init],
+	[[RayMarch alloc] init],
 	nil];
 	
 	[pieces retain];

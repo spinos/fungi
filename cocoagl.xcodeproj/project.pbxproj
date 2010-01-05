@@ -15,6 +15,7 @@
 		7F8092A710EE7C15003E6793 /* WhiteNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F8092A610EE7C15003E6793 /* WhiteNoise.m */; };
 		7F87E00A10F0ECB30044350E /* FloatAttr.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F87E00910F0ECB30044350E /* FloatAttr.m */; };
 		7F87E29210F113160044350E /* SimpleNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F87E29110F113160044350E /* SimpleNoise.m */; };
+		7FADEB2110F3B04E00C292FA /* RayMarch.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FADEB2010F3B04E00C292FA /* RayMarch.m */; };
 		7FC82DCA1092543E00DDA036 /* MyGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FC82DC91092543E00DDA036 /* MyGLView.m */; };
 		7FC82DD01092551900DDA036 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC82DCF1092551900DDA036 /* OpenGL.framework */; };
 		7FF9884B10F1D91400023442 /* WaveletNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9884A10F1D91400023442 /* WaveletNoise.m */; };
@@ -52,6 +53,8 @@
 		7F87E00910F0ECB30044350E /* FloatAttr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatAttr.m; sourceTree = "<group>"; };
 		7F87E29010F113160044350E /* SimpleNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleNoise.h; sourceTree = "<group>"; };
 		7F87E29110F113160044350E /* SimpleNoise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimpleNoise.m; sourceTree = "<group>"; };
+		7FADEB1F10F3B04E00C292FA /* RayMarch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RayMarch.h; sourceTree = "<group>"; };
+		7FADEB2010F3B04E00C292FA /* RayMarch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RayMarch.m; sourceTree = "<group>"; };
 		7FC82DC91092543E00DDA036 /* MyGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyGLView.m; sourceTree = "<group>"; };
 		7FC82DCF1092551900DDA036 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		7FF9884910F1D91400023442 /* WaveletNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveletNoise.h; sourceTree = "<group>"; };
@@ -82,6 +85,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7FADEB1F10F3B04E00C292FA /* RayMarch.h */,
+				7FADEB2010F3B04E00C292FA /* RayMarch.m */,
 				7FF98B3B10F2904F00023442 /* ScalarFBO.h */,
 				7FF98B3C10F2904F00023442 /* ScalarFBO.m */,
 				7FF9891010F1E89200023442 /* DownUpSample.h */,
@@ -247,6 +252,7 @@
 				7FF9891210F1E89200023442 /* DownUpSample.m in Sources */,
 				7FF9893210F1EA0300023442 /* zmath.c in Sources */,
 				7FF98B3D10F2904F00023442 /* ScalarFBO.m in Sources */,
+				7FADEB2110F3B04E00C292FA /* RayMarch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

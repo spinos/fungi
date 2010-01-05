@@ -22,9 +22,11 @@
 
 - (void)preflight
 {
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, cfbo);
 	glViewport(0,0,512, 512);
 	glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
+	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
@@ -45,6 +47,7 @@ glColor3f(1,1,1);
 	glEnd();
 	
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glPopAttrib();
 }
 
 - (void) draw
