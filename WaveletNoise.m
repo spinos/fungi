@@ -9,6 +9,7 @@
 #import "WaveletNoise.h"
 
 #import "zmath.h"
+#import "perlin.h"
 
 @implementation WaveletNoise
 - (id) init
@@ -119,10 +120,20 @@
 {
 	float *texels = malloc(poolw*poolh*sizeof(float));
 	int u, v;
-	srand(20757);
+	//srand(20757);
+	double ni[3];
+	double inci, incj, inck;
+	ni[0] = ni[1] = ni[2] = 0;
+	SetNoiseFrequency(64);
+	
+	inck = 1.0/2.0; incj = 1.0/2.0; inci = 1.0/2.0;
+	ni[0] += inck;
 	for(v=0; v<poolh; v++) {
+		ni[1] += incj;
 		for(u=0; u<poolw; u++) {
-			texels[v*poolw+u] = (float)(rand()%901)/901.f;
+			ni[2] += inci;
+			//texels[v*poolw+u] = (float)(rand()%901)/901.f;
+			texels[v*poolw+u] = noise3(ni);
 		}
 	}
 	

@@ -8,6 +8,7 @@
 
 #import "RayMarch.h"
 #import "zmath.h"
+#import "perlin.h"
 
 @implementation RayMarch
 - (id) init
@@ -139,9 +140,9 @@
 "	sp = sp*0.5 + vec3(0.5);"
 
 "	vol = texture3D(DensityUnit, sp);"
-"	weight = fractal_func((sp + vec3(47.117, 79.293, 67.717))*0.25);"
-"weight = pow(weight, 2.0);"
-"weight *= 0.75*vol.a * step_size;"
+"	weight = fractal_func((sp + vec3(47.117, 79.293, 67.717))*0.43);"
+"weight = pow(weight, 2.5);"
+"weight *= 0.49*vol.a * step_size;"
 //"	weight = 0.3*vol.a * step_size;"
 "	acc_dens += (1.0 - acc_dens) * weight;"
 "	m = m + (vol.xyz - m) * weight;"
@@ -265,7 +266,7 @@ int DENSITY_DEPTH = 40;
 				ty = v - 18.f; ty /= 20.f;
 				tz = w - 19.f; tz /= 20.f;
 				den = sqrt(tx*tx + ty*ty + tz*tz);
-				den = 1.0 - sqrt(den);
+				den = 1.0 - den*den;
 				if(den < 0.f) den = 0.f;
 				if(den > 0.9) den = 1.0;
 				
@@ -280,11 +281,25 @@ int DENSITY_DEPTH = 40;
 	int noise_h = 128;
 	int noise_d = 128;
 	
+	double ni[3];
+	double inci, incj, inck;
+	ni[0] = ni[1] = ni[2] = 0;
+	SetNoiseFrequency(64);
+	
+	inck = 1.0/2.0; incj = 1.0/2.0; inci = 1.0/2.0;
+	
 	float *noi = malloc( noise_w * noise_h * noise_d * sizeof(float));
-srand(32019);	
-	for(w=0; w< noise_d; w++)
-		for(v=0; v< noise_h; v++)
-			for(u=0; u< noise_w; u++) noi[ w*  noise_w * noise_h  + v * noise_w + u] = (float)(random()%511)/511.f;
+//srand(32019);	
+	for(w=0; w< noise_d; w++) {
+		ni[0] += inck;
+		for(v=0; v< noise_h; v++) {
+			ni[1] += incj;
+			for(u=0; u< noise_w; u++) {//noi[ w*  noise_w * noise_h  + v * noise_w + u] = (float)(random()%511)/511.f;
+				ni[2] += inci;
+				noi[ w*  noise_w * noise_h  + v * noise_w + u] = noise3(ni);
+			}
+		}
+	}
 			
 	float *down_pix = malloc(noise_w/2 * noise_h/2 * noise_d/2*sizeof(float));
 	

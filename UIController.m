@@ -14,6 +14,7 @@
 #import "DownUpSample.h"
 #import "ScalarFBO.h"
 #import "RayMarch.h"
+#import "PerlinNoise.h"
 
 @implementation UIController
 
@@ -23,6 +24,7 @@
 	
 	pieces = [NSArray arrayWithObjects:
 	[[WhiteNoise alloc] init],
+	[[PerlinNoise alloc] init],
 	[[FFTImage alloc] init],
 	[[SimpleNoise alloc] init],
 	[[WaveletNoise alloc] init],
