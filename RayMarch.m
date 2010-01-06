@@ -173,6 +173,7 @@
 				  0,1,0);
 				  
 	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_3D);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_3D, voltex);
 	glActiveTexture(GL_TEXTURE1);
@@ -190,6 +191,8 @@ glColor3f(1,1,1);
 		glVertex3f(-1,1,1);
 	glEnd();
 	glUseProgram(0);
+	glDisable(GL_TEXTURE_3D);
+	glEnable(GL_TEXTURE_2D);
 	
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	glPopAttrib();
@@ -278,10 +281,10 @@ int DENSITY_DEPTH = 40;
 	int noise_d = 128;
 	
 	float *noi = malloc( noise_w * noise_h * noise_d * sizeof(float));
-	
+srand(32019);	
 	for(w=0; w< noise_d; w++)
 		for(v=0; v< noise_h; v++)
-			for(u=0; u< noise_w; u++) noi[ w*  noise_w * noise_h  + v * noise_w + u] = (float)(random()%301)/301.f;
+			for(u=0; u< noise_w; u++) noi[ w*  noise_w * noise_h  + v * noise_w + u] = (float)(random()%511)/511.f;
 			
 	float *down_pix = malloc(noise_w/2 * noise_h/2 * noise_d/2*sizeof(float));
 	

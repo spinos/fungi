@@ -119,10 +119,10 @@
 {
 	float *texels = malloc(poolw*poolh*sizeof(float));
 	int u, v;
-	
+	srand(20757);
 	for(v=0; v<poolh; v++) {
 		for(u=0; u<poolw; u++) {
-			texels[v*poolw+u] = (float)(random()%901)/901.f;
+			texels[v*poolw+u] = (float)(rand()%901)/901.f;
 		}
 	}
 	

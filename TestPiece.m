@@ -63,10 +63,17 @@
 GLuint vertex_shader   = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex_shader, 1, &vertex_string, 0);
 	glCompileShader(vertex_shader);
+	
+	GLint shader_compiled;
+	glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, (GLint*)&shader_compiled);
+	if(!shader_compiled) NSLog(vert_source);
 
 	GLuint fragment_shader   = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragment_shader, 1, &fragment_string, 0);
 	glCompileShader(fragment_shader);
+	
+	glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, (GLint*)&shader_compiled);
+	if(!shader_compiled) NSLog(frag_source);
 	
 	program = glCreateProgram();
 	
@@ -78,10 +85,7 @@ GLuint vertex_shader   = glCreateShader(GL_VERTEX_SHADER);
 	GLint linked;
 	glGetProgramiv(program, GL_LINK_STATUS, &linked);
 	
-	if(!linked) {
-		NSLog(vert_source);
-		NSLog(frag_source);
-	}
+	if(!linked) NSLog(@"program failed to initialize");
 }
 
 - (void)updateUniformFloat

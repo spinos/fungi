@@ -57,16 +57,16 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 284407018;
-			PBXWorkspaceStateSaveDate = 284407018;
+			PBXPerProjectTemplateStateSaveDate = 284426118;
+			PBXWorkspaceStateSaveDate = 284426118;
 		};
 		perUserProjectItems = {
-			7FADEB6910F3C40400C292FA /* PBXBookmark */ = 7FADEB6910F3C40400C292FA /* PBXBookmark */;
-			7FADEC2A10F3DE2400C292FA /* PBXTextBookmark */ = 7FADEC2A10F3DE2400C292FA /* PBXTextBookmark */;
-			7FADEC2E10F3DE2400C292FA /* PBXTextBookmark */ = 7FADEC2E10F3DE2400C292FA /* PBXTextBookmark */;
-			7FADED7A10F3E82B00C292FA /* PBXTextBookmark */ = 7FADED7A10F3E82B00C292FA /* PBXTextBookmark */;
-			7FADED7B10F3E82B00C292FA /* PBXTextBookmark */ = 7FADED7B10F3E82B00C292FA /* PBXTextBookmark */;
-			7FADED7C10F3E82B00C292FA /* PBXTextBookmark */ = 7FADED7C10F3E82B00C292FA /* PBXTextBookmark */;
+			7FADEB6910F3C40400C292FA = 7FADEB6910F3C40400C292FA /* PBXBookmark */;
+			7FADEC2A10F3DE2400C292FA = 7FADEC2A10F3DE2400C292FA /* PBXTextBookmark */;
+			7FADEC2E10F3DE2400C292FA = 7FADEC2E10F3DE2400C292FA /* PBXTextBookmark */;
+			7FADED7A10F3E82B00C292FA = 7FADED7A10F3E82B00C292FA /* PBXTextBookmark */;
+			7FADED7B10F3E82B00C292FA = 7FADED7B10F3E82B00C292FA /* PBXTextBookmark */;
+			7FADED7C10F3E82B00C292FA = 7FADED7C10F3E82B00C292FA /* PBXTextBookmark */;
 		};
 		sourceControlManager = 7FC82DBC10924FE000DDA036 /* Source Control */;
 		userBookmarkGroup = 7FC977CB109B5EE5003E8507 /* PBXBookmarkGroup */;
@@ -131,9 +131,9 @@
 	};
 	7F80918710EE6E18003E6793 /* TestPiece.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {474, 1624}}";
+			sepNavIntBoundsRect = "{{0, 0}, {506, 1344}}";
 			sepNavSelRange = "{389, 0}";
-			sepNavVisRange = "{72, 338}";
+			sepNavVisRange = "{488, 804}";
 			sepNavWindowFrame = "{{254, -2}, {533, 624}}";
 		};
 	};
@@ -251,7 +251,7 @@
 		isa = PBXTextBookmark;
 		fRef = 7FF9893010F1EA0300023442 /* zmath.h */;
 		rLen = 0;
-		rLoc = 2147483823;
+		rLoc = 486;
 		rType = 0;
 	};
 	7FADED7A10F3E82B00C292FA /* PBXTextBookmark */ = {

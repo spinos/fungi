@@ -51,9 +51,9 @@
 - (void)initGL
 {
 	int w, h, u, v;
-	checkEXRDim("/Users/jianzhang/Pictures/foo.exr", &w, &h);
+	checkEXRDim("/Users/jianzhang/Desktop/foo.exr", &w, &h);
 	float *texels = malloc(w*h*sizeof(float));
-	readEXRRED("/Users/jianzhang/Pictures/foo.exr", w,h, texels);
+	readEXRRED("/Users/jianzhang/Desktop/foo.exr", w,h, texels);
 	
 	glGenTextures(1, &teximg);	
 	glBindTexture(GL_TEXTURE_2D, teximg);	
