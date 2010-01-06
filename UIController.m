@@ -15,6 +15,7 @@
 #import "ScalarFBO.h"
 #import "RayMarch.h"
 #import "PerlinNoise.h"
+#import "RenderTo3DTex.h"
 
 @implementation UIController
 
@@ -31,6 +32,7 @@
 	[[DownUpSample alloc] init],
 	[[ScalarFBO alloc] init],
 	[[RayMarch alloc] init],
+	[[RenderTo3DTex alloc] init],
 	nil];
 	
 	[pieces retain];

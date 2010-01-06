@@ -57,24 +57,24 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 284464652;
-			PBXWorkspaceStateSaveDate = 284464652;
+			PBXPerProjectTemplateStateSaveDate = 284471872;
+			PBXWorkspaceStateSaveDate = 284471872;
 		};
 		perUserProjectItems = {
-			7F8EB57610F499C300B1D091 /* PBXTextBookmark */ = 7F8EB57610F499C300B1D091 /* PBXTextBookmark */;
-			7F8EB57A10F499C300B1D091 /* PBXTextBookmark */ = 7F8EB57A10F499C300B1D091 /* PBXTextBookmark */;
-			7F8EB57F10F499C300B1D091 /* PBXTextBookmark */ = 7F8EB57F10F499C300B1D091 /* PBXTextBookmark */;
-			7F8EB58410F499C300B1D091 /* PBXTextBookmark */ = 7F8EB58410F499C300B1D091 /* PBXTextBookmark */;
-			7F8EB61310F49EA000B1D091 /* PBXBookmark */ = 7F8EB61310F49EA000B1D091 /* PBXBookmark */;
-			7F8EB63010F4A51100B1D091 /* PBXTextBookmark */ = 7F8EB63010F4A51100B1D091 /* PBXTextBookmark */;
-			7F8EB63310F4A51100B1D091 /* PBXTextBookmark */ = 7F8EB63310F4A51100B1D091 /* PBXTextBookmark */;
-			7F8EB63410F4A51100B1D091 /* PBXTextBookmark */ = 7F8EB63410F4A51100B1D091 /* PBXTextBookmark */;
-			7F8EB63510F4A51100B1D091 /* PBXTextBookmark */ = 7F8EB63510F4A51100B1D091 /* PBXTextBookmark */;
-			7F8EB63610F4A51100B1D091 /* PBXTextBookmark */ = 7F8EB63610F4A51100B1D091 /* PBXTextBookmark */;
-			7F8EB63710F4A51100B1D091 /* PBXTextBookmark */ = 7F8EB63710F4A51100B1D091 /* PBXTextBookmark */;
-			7F8EB63810F4A51100B1D091 /* PBXTextBookmark */ = 7F8EB63810F4A51100B1D091 /* PBXTextBookmark */;
-			7FADEDDA10F40D6800C292FA /* PBXTextBookmark */ = 7FADEDDA10F40D6800C292FA /* PBXTextBookmark */;
-			7FADEDE410F40D6800C292FA /* PBXTextBookmark */ = 7FADEDE410F40D6800C292FA /* PBXTextBookmark */;
+			7F8EB57610F499C300B1D091 = 7F8EB57610F499C300B1D091 /* PBXTextBookmark */;
+			7F8EB57A10F499C300B1D091 = 7F8EB57A10F499C300B1D091 /* PBXTextBookmark */;
+			7F8EB57F10F499C300B1D091 = 7F8EB57F10F499C300B1D091 /* PBXTextBookmark */;
+			7F8EB58410F499C300B1D091 = 7F8EB58410F499C300B1D091 /* PBXTextBookmark */;
+			7F8EB61310F49EA000B1D091 = 7F8EB61310F49EA000B1D091 /* PBXBookmark */;
+			7F8EB63010F4A51100B1D091 = 7F8EB63010F4A51100B1D091 /* PBXTextBookmark */;
+			7F8EB63310F4A51100B1D091 = 7F8EB63310F4A51100B1D091 /* PBXTextBookmark */;
+			7F8EB63410F4A51100B1D091 = 7F8EB63410F4A51100B1D091 /* PBXTextBookmark */;
+			7F8EB63510F4A51100B1D091 = 7F8EB63510F4A51100B1D091 /* PBXTextBookmark */;
+			7F8EB63610F4A51100B1D091 = 7F8EB63610F4A51100B1D091 /* PBXTextBookmark */;
+			7F8EB63710F4A51100B1D091 = 7F8EB63710F4A51100B1D091 /* PBXTextBookmark */;
+			7F8EB63810F4A51100B1D091 = 7F8EB63810F4A51100B1D091 /* PBXTextBookmark */;
+			7FADEDDA10F40D6800C292FA = 7FADEDDA10F40D6800C292FA /* PBXTextBookmark */;
+			7FADEDE410F40D6800C292FA = 7FADEDE410F40D6800C292FA /* PBXTextBookmark */;
 		};
 		sourceControlManager = 7FC82DBC10924FE000DDA036 /* Source Control */;
 		userBookmarkGroup = 7FC977CB109B5EE5003E8507 /* PBXBookmarkGroup */;
@@ -281,12 +281,6 @@
 		name = PerlinNoise.m;
 		path = /Users/jianzhang/Documents/fungi/PerlinNoise.m;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {614, 1092}}";
-			sepNavSelRange = "{1025, 41}";
-			sepNavVisRange = "{698, 853}";
-			sepNavWindowFrame = "{{60, 159}, {605, 619}}";
-		};
 	};
 	7F8EB57F10F499C300B1D091 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -295,7 +289,7 @@
 		rLen = 12;
 		rLoc = 196;
 		rType = 0;
-		vrLen = 332;
+		vrLen = 291;
 		vrLoc = 0;
 	};
 	7F8EB58010F499C300B1D091 /* PerlinNoise.h */ = {
@@ -304,18 +298,12 @@
 		name = PerlinNoise.h;
 		path = /Users/jianzhang/Documents/fungi/PerlinNoise.h;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {546, 491}}";
-			sepNavSelRange = "{285, 0}";
-			sepNavVisRange = "{0, 291}";
-			sepNavWindowFrame = "{{38, 133}, {605, 619}}";
-		};
 	};
 	7F8EB58410F499C300B1D091 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 7F8EB55610F4964200B1D091 /* perlin.h */;
 		rLen = 0;
-		rLoc = 2147483715;
+		rLoc = 203;
 		rType = 0;
 	};
 	7F8EB61310F49EA000B1D091 /* PBXBookmark */ = {

@@ -1,20 +1,20 @@
 //
-//  RayMarch.m
+//  RenderTo3DTex.m
 //  triangle
 //
 //  Created by jian zhang on 1/2/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "RayMarch.h"
+#import "RenderTo3DTex.h"
 #import "zmath.h"
 #import "perlin.h"
 
-@implementation RayMarch
+@implementation RenderTo3DTex
 - (id) init
 {
 	[super init];
-	name = @"RayMarch";
+	name = @"RenderTo3DTex";
 	
 	glInited = 0;
 	
@@ -34,37 +34,9 @@
 
 	frag_source =
 @"uniform sampler3D DensityUnit;"
-"uniform sampler3D WhiteNoise;"
 
 "varying vec3  RayVec;"
 "varying vec3  RayOrigin;"
-
-"float fractal_func(vec3 pcoord)"
-"{"
-"	float f=1.0;"
-
-"	float fractal = texture3D(WhiteNoise, pcoord).r*0.5+0.5;" 
-"	f*= 2.0;"
-"	fractal += texture3D(WhiteNoise, pcoord*f).r/f;" 
-"	f*= 2.0;"
-"	fractal += texture3D(WhiteNoise, pcoord*f).r/f;" 
-"	f*= 2.0;"
-"	fractal += texture3D(WhiteNoise, pcoord*f).r/f;" 
-"	f*= 2.0;"
-"	fractal += texture3D(WhiteNoise, pcoord*f).r/f;" 
-/*
-"	float fractal = texture3D(WhiteNoise, pcoord).r;" 
-"	f*= 2.0;"
-"	fractal += (texture3D(WhiteNoise, pcoord*f).r-0.5)/f;" 
-"	f*= 2.0;"
-"	fractal += (texture3D(WhiteNoise, pcoord*f).r-0.5)/f;" 
-"	f*= 2.0;"
-"	fractal += (texture3D(WhiteNoise, pcoord*f).r-0.5)/f;" 
-"	f*= 2.0;"
-"	fractal += (texture3D(WhiteNoise, pcoord*f).r-0.5)/f;"
-*/
-"return clamp(fractal,0.0, 1.0);"
-"}"
 
 "vec2 ray_box_hit()"
 "{"
@@ -141,18 +113,23 @@
 "	sp = sp*0.5 + vec3(0.5);"
 
 "	vol = texture3D(DensityUnit, sp);"
-"	weight = fractal_func((sp + vec3(47.117, 79.293, 67.717))*0.5);"
-"weight = pow(weight, 2.0);"
-"weight *= 0.4 * vol.a * step_size;"
+
+"weight = 0.3 * vol.a * step_size;"
 
 "dif_dens = acc_dens;"
 "	acc_dens += (1.0 - acc_dens) * weight;"
+
 "dif_dens = acc_dens - dif_dens;"
+
 "	 m = m + (vol.xyz - m) * dif_dens;"
+
 "	if(acc_dens >= 1.0) i = num_step+2.0;"
+
+
 "}"
 "    gl_FragColor = vec4 (m,  1.0);"
 //"    gl_FragColor = vec4 (vec3(acc_dens),  1.0);"
+
 "}";
 
 	return self;
@@ -160,11 +137,52 @@
 
 - (void)preflight
 {
+// draw to 3d tex first
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	glClearColor(0,0,0,0);
+	glDisable(GL_DEPTH_TEST);
+	
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, volfbo);
+	glViewport(0,0,40, 40);
+	glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();	
+	glOrtho(-2.1, 2.1, -2.1, 2.1, 2.0, 100.0);
+	glMatrixMode(GL_MODELVIEW);
+	
+	glLoadIdentity();
+		gluLookAt(0,0,10,
+				  0,0,0,
+				  0,1,0);
+				  
+	glDisable(GL_TEXTURE_2D);
+	int z;
+	float slice;
+	for(z=0; z<40; z++) {
+        // attach texture slice to FBO
+        glFramebufferTexture3DEXT( GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
+                               GL_TEXTURE_3D, tgvoltex, 0, z );
+							   //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				slice = (float)(z+0.5) / 40.f;
+        // draw quad
+		glColor4f(0,1-slice, slice, 1.0);
+		 glBegin(GL_QUADS);
+			glVertex3f(-2+slice*2,-1, slice);
+			glVertex3f( 2+slice*2,-1, slice);
+			glVertex3f( 2+slice*2, 1, slice);
+			glVertex3f(-2+slice*2, 1, slice);
+		glEnd();
+    }
+	
+	
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	
+// draw render buffer	
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, ifbo);
 	glViewport(0,0,512, 512);
 	glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-	glClearColor(0,0,0,0);
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();	
@@ -177,11 +195,9 @@
 				  0,1,0);
 				  
 	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE_3D);
+	//glEnable(GL_TEXTURE_3D);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_3D, voltex);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_3D, noitex);
+	glBindTexture(GL_TEXTURE_3D, tgvoltex);
 glColor3f(1,1,1);
 	glUseProgram(program);
 	glBegin(GL_QUADS);
@@ -195,7 +211,7 @@ glColor3f(1,1,1);
 		glVertex3f(-1,1,1);
 	glEnd();
 	glUseProgram(0);
-	glDisable(GL_TEXTURE_3D);
+	//glDisable(GL_TEXTURE_3D);
 	glEnable(GL_TEXTURE_2D);
 	
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -227,8 +243,8 @@ glEnable(GL_TEXTURE_2D);
 	glGenTextures(1, &itex);	
 	glBindTexture(GL_TEXTURE_2D, itex);	
 	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
@@ -243,116 +259,53 @@ glEnable(GL_TEXTURE_2D);
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	
-// 3d texture
-	glGenTextures(1, &voltex);	
-	glBindTexture(GL_TEXTURE_3D, voltex);	
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER);
+
 	
 int DENSITY_WIDTH = 40;
 int DENSITY_HEIGHT = 40;
 int DENSITY_DEPTH = 40;
 
+	glGenFramebuffersEXT(1, &volfbo);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, volfbo);
+	
+	// 3d texture
+	glGenTextures(1, &tgvoltex);	
+	glBindTexture(GL_TEXTURE_3D, tgvoltex);	
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER);
+	
 	float *texels = malloc( DENSITY_WIDTH * DENSITY_HEIGHT * DENSITY_DEPTH * 4 * sizeof(float));
 	int u, v, w;
-	float tx, ty, tz, den;
 	for(w=0; w< DENSITY_DEPTH; w++) {
 		for(v=0; v< DENSITY_HEIGHT; v++) {
 			for(u=0; u< DENSITY_WIDTH; u++) {
-				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4] = 0.5+(float)(w-20)/40.f;
-				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+1] = 0.5+(float)(v-20)/40.f;
-				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+2] = 0.5-(float)(w-20)/40.f;
-				tx = u - 19.f; 
-				ty = v - 19.f; 
-				tz = w - 19.f; 
-				den = sqrt(tx*tx + ty*ty + tz*tz)/20;
-				
-				den = 1.0 - den;
-				den *=2;
-					
-				if(den > 1.0) {
-					den = 1;
-				}
-				
-				
-				if(den < 0) den =0;
-				
-				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+3] = den;
-				
-				//texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4] *=den;
-				//texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+1]  *=den;
-				//texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+2]  *=den;
-				
+				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4] = 0.f;
+				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+1] = 0.f;
+				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+2] = 0.f;
+				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+3] = 0.f;
 			}
 		}
 	}
-	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA16F_ARB, DENSITY_WIDTH, DENSITY_HEIGHT, DENSITY_DEPTH, 0, GL_RGBA, GL_FLOAT, texels);
+	
+	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA32F_ARB, DENSITY_WIDTH, DENSITY_HEIGHT, DENSITY_DEPTH, 0, GL_RGBA, GL_FLOAT, texels);
+	
 	free(texels);
 	
-	int noise_w = 128;
-	int noise_h = 128;
-	int noise_d = 128;
+	glFramebufferTexture3DEXT( GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
+                               GL_TEXTURE_3D, tgvoltex, 0, 0 );
+							   
+	 status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+        if(status !=  GL_FRAMEBUFFER_COMPLETE_EXT ) NSLog(@"failed fbo 3d");
 	
-	double ni[3];
-	double inci, incj, inck;
-	ni[0] = ni[1] = ni[2] = 0;
-	SetNoiseFrequency(64);
-	
-	inck = 1.0/2.0; incj = 1.0/2.0; inci = 1.0/2.0;
-	
-	float *noi = malloc( noise_w * noise_h * noise_d * sizeof(float));
-//srand(32019);	
-	for(w=0; w< noise_d; w++) {
-		ni[0] += inck;
-		for(v=0; v< noise_h; v++) {
-			ni[1] += incj;
-			for(u=0; u< noise_w; u++) {//noi[ w*  noise_w * noise_h  + v * noise_w + u] = (float)(random()%511)/511.f;
-				ni[2] += inci;
-				noi[ w*  noise_w * noise_h  + v * noise_w + u] = noise3(ni);
-			}
-		}
-	}
-			
-	float *down_pix = malloc(noise_w/2 * noise_h/2 * noise_d/2*sizeof(float));
-	
-	for(w=0; w< noise_d/2; w++)
-		for(v=0; v< noise_h/2; v++)
-			for(u=0; u< noise_w/2; u++) down_pix[w*  noise_w /2 * noise_h /2  + v * noise_w /2 + u] = downSample3D(u, v, w, noise_w, noise_h, noise_d, noi);
-
-	
-	float *up_pix = malloc(noise_w * noise_h * noise_d*sizeof(float));
-	
-	for(w=0; w< noise_d; w++)
-		for(v=0; v< noise_h; v++)
-			for(u=0; u< noise_w; u++) up_pix[w*  noise_w * noise_h  + v * noise_w + u] = upSample3D(u, v, w, noise_w/2, noise_h/2, noise_d/2, down_pix);
-
-	
-	for(w=0; w< noise_d; w++)
-		for(v=0; v< noise_h; v++)
-			for(u=0; u< noise_w; u++) noi[w*  noise_w * noise_h  + v * noise_w + u] = noi[w*  noise_w * noise_h  + v * noise_w + u] - up_pix[w*  noise_w * noise_h  + v * noise_w + u];
-
-	
-glGenTextures(1, &noitex);	
-	glBindTexture(GL_TEXTURE_3D, noitex);	
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
-	
-	glTexImage3D(GL_TEXTURE_3D, 0, GL_LUMINANCE16F_ARB, noise_w, noise_h, noise_d, 0, GL_RED, GL_FLOAT, noi);
-	free(noi);
-	free(down_pix);
-	free(up_pix);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	
 	[self initShaders];
 	
 	glUseProgram(program);
 		glUniform1i(glGetUniformLocation(program, "DensityUnit"), 0);
-		glUniform1i(glGetUniformLocation(program, "WhiteNoise"), 1);
 		glUseProgram(0);
 	
 	glInited = 1;
