@@ -25,7 +25,7 @@
 
 "void main(void)"
 "{"
-"	vec3 eye = vec3(0.0,0.0,6.0);"
+"	vec3 eye = vec3(4.0,0.0,4.0);"
 "    RayVec        = gl_MultiTexCoord0.xyz - eye;"
 "    RayVec        = normalize(RayVec);"
 "	RayOrigin = gl_MultiTexCoord0.xyz;"
@@ -95,7 +95,7 @@
 "{" 
 " vec2 hit = ray_box_hit();"
 " float num_step = 0.0;"
-"if(hit.x > 0.01) num_step = (hit.y - hit.x)/0.04;"
+"if(hit.x > 0.01) num_step = (hit.y - hit.x)/0.02;"
 
 "vec3 m = vec3(0.0);"
 "float i, step_size, ray_length, weight;"
@@ -107,19 +107,17 @@
 "	step_size = num_step - i;"
 "	if(step_size > 1.0) step_size = 1.0;"
 
-"	ray_length = hit.x + i * 0.04;"
+"	ray_length = hit.x + i * 0.02;"
 "	sp = RayOrigin + RayVec * ray_length;"
 
 "	sp = sp*0.5 + vec3(0.5);"
 
 "	vol = texture3D(DensityUnit, sp);"
 
-"weight = 0.3 * vol.a * step_size;"
+"weight = 1.0 * vol.a * step_size;"
 
-"dif_dens = acc_dens;"
-"	acc_dens += (1.0 - acc_dens) * weight;"
-
-"dif_dens = acc_dens - dif_dens;"
+"dif_dens = (1.0 - acc_dens) * weight;"
+"	acc_dens += dif_dens;"
 
 "	 m = m + (vol.xyz - m) * dif_dens;"
 
@@ -145,33 +143,75 @@
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, volfbo);
 	glViewport(0,0,40, 40);
 	glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();	
-	glOrtho(-2.1, 2.1, -2.1, 2.1, 2.0, 100.0);
-	glMatrixMode(GL_MODELVIEW);
-	
-	glLoadIdentity();
-		gluLookAt(0,0,10,
-				  0,0,0,
-				  0,1,0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 				  
 	glDisable(GL_TEXTURE_2D);
 	int z;
 	float slice;
 	for(z=0; z<40; z++) {
+	
         // attach texture slice to FBO
         glFramebufferTexture3DEXT( GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT,
                                GL_TEXTURE_3D, tgvoltex, 0, z );
-							   //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				slice = (float)(z+0.5) / 40.f;
-        // draw quad
-		glColor4f(0,1-slice, slice, 1.0);
-		 glBegin(GL_QUADS);
-			glVertex3f(-2+slice*2,-1, slice);
-			glVertex3f( 2+slice*2,-1, slice);
-			glVertex3f( 2+slice*2, 1, slice);
-			glVertex3f(-2+slice*2, 1, slice);
+							   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();	
+	glOrtho(-1, 1, -1, 1, 0.1, 0.125);
+	glMatrixMode(GL_MODELVIEW);
+	
+	glLoadIdentity();
+		gluLookAt(0,0,0.125 + z*0.025,
+				  0,0,0,
+				  0,1,0);
+		
+		slice = (float)(z) / 40.f;
+        // draw point
+		
+		glColor4f(0,1, slice, 1.0);
+		glBegin(GL_POINTS);
+		
+		
+			
+			
+			glVertex3f( 0.1, 0.1, 0.65);
+			glVertex3f( 0.125, 0.1, 0.65);
+			glVertex3f( 0.15, 0.1, 0.65);
+			glVertex3f( 0.15, 0.125, 0.65);
+			glVertex3f( 0.15, 0.15, 0.65);
+			glVertex3f( 0.15, 0.175, 0.65);
+			glVertex3f( 0.15, 0.2, 0.65);
+			glVertex3f( 0.15, 0.225, 0.65);
+			glVertex3f( 0.15, 0.25, 0.65);
+			glVertex3f( 0.175, 0.25, 0.65);
+			glVertex3f( 0.2, 0.25, 0.65);
+			glVertex3f( 0.225, 0.25, 0.65);
+			glVertex3f( 0.225, 0.25, 0.625);
+			glVertex3f( 0.225, 0.25, 0.6);
+			glVertex3f( 0.225, 0.275, 0.6);
+			glVertex3f( 0.225, 0.3, 0.6);
+			glVertex3f( 0.225, 0.325, 0.575);
+			glVertex3f( 0.225, 0.35, 0.55);
+			glVertex3f( 0.225, 0.35, 0.525);
+			glVertex3f( 0.225, 0.325, 0.5);
+			glVertex3f( 0.225, 0.3, 0.475);
+			glVertex3f( 0.225, 0.275, 0.475);
+			glVertex3f( 0.225, 0.25, 0.475);
+			glVertex3f( 0.225, 0.225, 0.475);
+			glVertex3f( 0.225, 0.2, 0.475);
+			glVertex3f( 0.225, 0.175, 0.475);
+			glVertex3f( 0.225, 0.175, 0.45);
+			glVertex3f( 0.225, 0.175, 0.425);
+			glVertex3f( 0.225, 0.15, 0.425);
+			glVertex3f( 0.225, 0.125, 0.425);
+			glVertex3f( 0.225, 0.1, 0.425);
+			glVertex3f( 0.2, 0.1, 0.425);
+			glVertex3f( 0.175, 0.075, 0.425);
+			glVertex3f( 0.15, 0.075, 0.425);
+			glVertex3f( 0.125, 0.05, 0.425);
+			glVertex3f( 0.1, 0.05, 0.425);
+
 		glEnd();
     }
 	
@@ -201,13 +241,13 @@
 glColor3f(1,1,1);
 	glUseProgram(program);
 	glBegin(GL_QUADS);
-		glMultiTexCoord3f(GL_TEXTURE0_ARB, -1,-1,2);
+		glMultiTexCoord3f(GL_TEXTURE0_ARB, 1,-1,3);
 		glVertex3f(-1,-1,1);
-		glMultiTexCoord3f(GL_TEXTURE0_ARB, 1,-1,2);
+		glMultiTexCoord3f(GL_TEXTURE0_ARB, 3,-1,1);
 		glVertex3f(1,-1,1);
-		glMultiTexCoord3f(GL_TEXTURE0_ARB, 1,1,2);
+		glMultiTexCoord3f(GL_TEXTURE0_ARB, 3,1,1);
 		glVertex3f(1,1,1);
-		glMultiTexCoord3f(GL_TEXTURE0_ARB, -1,1,2);
+		glMultiTexCoord3f(GL_TEXTURE0_ARB, 1,1,3);
 		glVertex3f(-1,1,1);
 	glEnd();
 	glUseProgram(0);
@@ -271,8 +311,8 @@ int DENSITY_DEPTH = 40;
 	// 3d texture
 	glGenTextures(1, &tgvoltex);	
 	glBindTexture(GL_TEXTURE_3D, tgvoltex);	
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER);
