@@ -22,6 +22,8 @@ float downSampleFilterCoeffs[32] = {
 float upSampleFilterCoeffs[4] = { 0.125, 0.375, 0.375, 0.125 };
 
 int ModIn(int x, int n) {int m=x%n; return (m<0) ? m+n : m;} 
+#define modFast128(x) ((x) & 127)
+#define modFast64(x) ((x) & 63)
 
 float downSample2D(int x, int y, int width, int height, float *data)
 {
@@ -114,4 +116,68 @@ float upSample3D(int x, int y, int z, int width, int height, int depth, float *d
 
 	sum /= 3.0;
 	return sum;
+}
+
+void downsampleX(float *from, float *to, int n)
+{
+
+	const float *a = &downSampleFilterCoeffs[16];
+	int i, k;
+	for (i = 0; i < n / 2; i++) {
+		to[i] = 0;
+		for (k = 2 * i - 16; k <= 2 * i + 16; k++)
+			to[i] += a[k - 2 * i] * from[modFast128(k)];
+	}
+}
+
+void downsampleY(float *from, float *to, int n)
+{
+  const float *a = &downSampleFilterCoeffs[16];
+  int i, k;
+	for ( i = 0; i < n / 2; i++) {
+		to[i * n] = 0;
+		for (  k = 2 * i - 16; k <= 2 * i + 16; k++)
+			to[i * n] += a[k - 2 * i] * from[modFast128(k) * n];
+	}
+}
+
+void downsampleZ(float *from, float *to, int n)
+{
+  const float *a = &downSampleFilterCoeffs[16];
+  int i, k;
+	for ( i = 0; i < n / 2; i++) {
+		to[i * n * n] = 0;
+		for (  k = 2 * i - 16; k <= 2 * i + 16; k++)
+			to[i * n * n] += a[k - 2 * i] * from[modFast128(k) * n * n];
+	}
+}
+
+void upsampleX(float *from, float *to, int n) 
+{
+	const float *p = &upSampleFilterCoeffs[2];
+	int i, k;
+	for ( i = 0; i < n; i++) {
+		to[i] = 0;
+		for ( k = i / 2; k <= i / 2 + 1; k++)
+			to[i] += p[i - 2 * k] * from[modFast64(k)];
+	}
+}
+
+void upsampleY(float *from, float *to, int n) {
+	const float *p = &upSampleFilterCoeffs[2];
+int i, k;
+	for ( i = 0; i < n; i++) {
+		to[i * n] = 0;
+		for ( k = i / 2; k <= i / 2 + 1; k++)
+			to[i * n] += p[i - 2 * k] * from[modFast64(k) * n];
+	}
+}
+void upsampleZ(float *from, float *to, int n) {
+	const float *p = &upSampleFilterCoeffs[2];
+int i, k;
+	for ( i = 0; i < n; i++) {
+		to[i * n * n] = 0;
+		for ( k = i / 2; k <= i / 2 + 1; k++)
+			to[i * n * n] += p[i - 2 * k] * from[modFast64(k) * n * n];
+	}
 }

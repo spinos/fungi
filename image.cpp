@@ -49,6 +49,58 @@ void readEXRRED(const char* filename, int width, int height, float* data)
 	delete[] rPixels;
 }
 
+void readEXRRGB(const char* filename, int width, int height, float* data)
+{
+	InputFile file(filename); 
+	Box2i dw = file.header().dataWindow();
+	
+	int size = (width)*(height);
+	
+	half *rPixels = new half[size];
+	half *gPixels = new half[size];
+	half *bPixels = new half[size];
+	
+	FrameBuffer frameBuffer; 
+	frameBuffer.insert ("R",                                  // name 
+						Slice (HALF,                          // type 
+							   (char *) rPixels, 
+							   sizeof (*rPixels) * 1,    // xStride 
+							   sizeof (*rPixels) * (width),// yStride 
+							   1, 1,                          // x/y sampling 
+							   0.0));                         // fillValue 
+							   
+	frameBuffer.insert ("G",                                  // name 
+						Slice (HALF,                          // type 
+							   (char *) gPixels, 
+							   sizeof (*gPixels) * 1,    // xStride 
+							   sizeof (*gPixels) * (width),// yStride 
+							   1, 1,                          // x/y sampling 
+							   0.0));
+							   
+	frameBuffer.insert ("B",                                  // name 
+						Slice (HALF,                          // type 
+							   (char *) bPixels, 
+							   sizeof (*bPixels) * 1,    // xStride 
+							   sizeof (*bPixels) * (width),// yStride 
+							   1, 1,                          // x/y sampling 
+							   0.0));
+							   
+	file.setFrameBuffer (frameBuffer); 
+	file.readPixels (dw.min.y, dw.max.y); 
+	
+	for(int j=0; j<height; j++)
+	for(int i=0; i<width; i++) {
+		
+		data[(j*width+i)*3 ] = rPixels[(height-1-j)*width+i];
+		data[(j*width+i)*3+1] = gPixels[(height-1-j)*width+i];
+		data[(j*width+i)*3+2] = bPixels[(height-1-j)*width+i];
+	}
+	
+	delete[] rPixels;
+	delete[] gPixels;
+	delete[] bPixels;
+}
+
 void saveEXRRGBA(const char* filename, int width, int height, float* data)
 {
 	half *idr_r = new half[ width * height];

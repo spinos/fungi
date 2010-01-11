@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F7A60EF10F78CE100A81631 /* OctreeRayMarch.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F7A60EE10F78CE100A81631 /* OctreeRayMarch.m */; };
 		7F808DE010EDF5E0003E6793 /* fft.c in Sources */ = {isa = PBXBuildFile; fileRef = 7F808DDF10EDF5E0003E6793 /* fft.c */; };
 		7F80903C10EE18C3003E6793 /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F80903B10EE18C3003E6793 /* image.cpp */; };
 		7F80918810EE6E18003E6793 /* TestPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F80918710EE6E18003E6793 /* TestPiece.m */; };
@@ -19,6 +20,7 @@
 		7F8EB56810F4997600B1D091 /* PerlinNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F8EB56710F4997600B1D091 /* PerlinNoise.m */; };
 		7F8EB64010F4B24E00B1D091 /* RenderTo3DTex.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F8EB63F10F4B24E00B1D091 /* RenderTo3DTex.m */; };
 		7FADEB2110F3B04E00C292FA /* RayMarch.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FADEB2010F3B04E00C292FA /* RayMarch.m */; };
+		7FB5D26510F8CBDB006E1875 /* MacCormack.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FB5D26410F8CBDB006E1875 /* MacCormack.m */; };
 		7FC82DCA1092543E00DDA036 /* MyGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FC82DC91092543E00DDA036 /* MyGLView.m */; };
 		7FC82DD01092551900DDA036 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC82DCF1092551900DDA036 /* OpenGL.framework */; };
 		7FF9884B10F1D91400023442 /* WaveletNoise.m in Sources */ = {isa = PBXBuildFile; fileRef = 7FF9884A10F1D91400023442 /* WaveletNoise.m */; };
@@ -40,6 +42,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* triangle_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = triangle_Prefix.pch; sourceTree = "<group>"; };
+		7F7A60ED10F78CE100A81631 /* OctreeRayMarch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OctreeRayMarch.h; sourceTree = "<group>"; };
+		7F7A60EE10F78CE100A81631 /* OctreeRayMarch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OctreeRayMarch.m; sourceTree = "<group>"; };
 		7F808DDE10EDF5E0003E6793 /* fft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fft.h; sourceTree = "<group>"; };
 		7F808DDF10EDF5E0003E6793 /* fft.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fft.c; sourceTree = "<group>"; };
 		7F80903A10EE18C3003E6793 /* image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
@@ -64,6 +68,8 @@
 		7F8EB63F10F4B24E00B1D091 /* RenderTo3DTex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderTo3DTex.m; sourceTree = "<group>"; };
 		7FADEB1F10F3B04E00C292FA /* RayMarch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RayMarch.h; sourceTree = "<group>"; };
 		7FADEB2010F3B04E00C292FA /* RayMarch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RayMarch.m; sourceTree = "<group>"; };
+		7FB5D26310F8CBDB006E1875 /* MacCormack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacCormack.h; sourceTree = "<group>"; };
+		7FB5D26410F8CBDB006E1875 /* MacCormack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MacCormack.m; sourceTree = "<group>"; };
 		7FC82DC91092543E00DDA036 /* MyGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyGLView.m; sourceTree = "<group>"; };
 		7FC82DCF1092551900DDA036 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		7FF9884910F1D91400023442 /* WaveletNoise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveletNoise.h; sourceTree = "<group>"; };
@@ -94,6 +100,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7FB5D26310F8CBDB006E1875 /* MacCormack.h */,
+				7FB5D26410F8CBDB006E1875 /* MacCormack.m */,
+				7F7A60ED10F78CE100A81631 /* OctreeRayMarch.h */,
+				7F7A60EE10F78CE100A81631 /* OctreeRayMarch.m */,
 				7F8EB63E10F4B24E00B1D091 /* RenderTo3DTex.h */,
 				7F8EB63F10F4B24E00B1D091 /* RenderTo3DTex.m */,
 				7F8EB56610F4997600B1D091 /* PerlinNoise.h */,
@@ -271,6 +281,8 @@
 				7F8EB55810F4964200B1D091 /* perlin.c in Sources */,
 				7F8EB56810F4997600B1D091 /* PerlinNoise.m in Sources */,
 				7F8EB64010F4B24E00B1D091 /* RenderTo3DTex.m in Sources */,
+				7F7A60EF10F78CE100A81631 /* OctreeRayMarch.m in Sources */,
+				7FB5D26510F8CBDB006E1875 /* MacCormack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

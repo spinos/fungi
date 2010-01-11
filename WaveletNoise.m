@@ -43,7 +43,7 @@
 "float fractal_func(vec2 pcoord)"
 "{"
 "	float f=1.0;"
-"	float fractal = texture2D(WhiteNoise, pcoord).r*0.5 + 0.5;" 
+"	float fractal = texture2D(WhiteNoise, pcoord).r;" 
 
 "	f*= Lacunarity;"
 
@@ -61,13 +61,24 @@
 "	f*= Lacunarity;"
 
 "	fractal += texture2D(WhiteNoise, pcoord*f).r/pow(f, Dimension);" 
-"return clamp(fractal,0.0, 1.0);"
+"return fractal;"
+"}"
+
+"vec2 derivative(vec2 pcoord)"
+"{"
+"float epsilon = 1.0/128.0;"
+"float left = fractal_func( pcoord+vec2(-epsilon,0.0 ));"
+"float right = fractal_func( pcoord+vec2(epsilon,0.0 ));"
+"float bottom = fractal_func( pcoord+vec2(0.0,-epsilon ));"
+"float top = fractal_func( pcoord+vec2(0.0,epsilon ));"
+
+"	return vec2((right - left), (top - bottom));"
 "}"
 
 "void main (void)"
 "{" 
-"	float s = fractal_func(TexCoord.xy);"
-"    gl_FragColor = vec4 (s, s, s,  1.0);"
+"	vec2 der = derivative(TexCoord.xy);"
+"    gl_FragColor = vec4 (der, 0.0,  1.0);"
 "}";
 
 	FloatAttr *lacunarity = [[FloatAttr alloc] init];
@@ -166,7 +177,7 @@
 	
 	for(v=0; v<poolh; v++) {
 		for(u=0; u<poolw; u++) {
-			texels[v*poolw+u] = texels[v*poolw+u] - up_pix[v*poolw+u];
+			texels[v*poolw+u] -= up_pix[v*poolw+u];
 		}
 	}
 	

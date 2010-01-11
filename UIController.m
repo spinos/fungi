@@ -16,6 +16,8 @@
 #import "RayMarch.h"
 #import "PerlinNoise.h"
 #import "RenderTo3DTex.h"
+#import "OctreeRayMarch.h"
+#import "MacCormack.h"
 
 @implementation UIController
 
@@ -25,6 +27,7 @@
 	
 	pieces = [NSArray arrayWithObjects:
 	[[WhiteNoise alloc] init],
+	[[MacCormack alloc] init],
 	[[PerlinNoise alloc] init],
 	[[FFTImage alloc] init],
 	[[SimpleNoise alloc] init],
@@ -33,6 +36,7 @@
 	[[ScalarFBO alloc] init],
 	[[RayMarch alloc] init],
 	[[RenderTo3DTex alloc] init],
+	[[OctreeRayMarch alloc] init],
 	nil];
 	
 	[pieces retain];

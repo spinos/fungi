@@ -6,15 +6,15 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "RayMarch.h"
+#import "OctreeRayMarch.h"
 #import "zmath.h"
 #import "perlin.h"
 
-@implementation RayMarch
+@implementation OctreeRayMarch
 - (id) init
 {
 	[super init];
-	name = @"RayMarch";
+	name = @"OctreeRayMarch";
 	
 	glInited = 0;
 	
@@ -43,15 +43,17 @@
 "{"
 "	float f=1.0;"
 
-"	float fractal = texture3D(WhiteNoise, pcoord).r*0.5+0.5;" 
+"	float fractal = texture3D(WhiteNoise, pcoord).r+0.5;" 
 "	f*= 2.0;"
-"	fractal += texture3D(WhiteNoise, pcoord*f).r/f;" 
+"	fractal +=  texture3D(WhiteNoise, pcoord*f).r/f;" 
 "	f*= 2.0;"
-"	fractal += texture3D(WhiteNoise, pcoord*f).r/f;" 
+"	fractal +=  texture3D(WhiteNoise, pcoord*f).r/f;" 
 "	f*= 2.0;"
-"	fractal += texture3D(WhiteNoise, pcoord*f).r/f;" 
+"	fractal +=  texture3D(WhiteNoise, pcoord*f).r/f;" 
 "	f*= 2.0;"
-"	fractal += texture3D(WhiteNoise, pcoord*f).r/f;" 
+"	fractal +=  texture3D(WhiteNoise, pcoord*f).r/f;"
+"	f*= 2.0;"
+"	fractal +=  texture3D(WhiteNoise, pcoord*f).r/f;" 
 /*
 "	float fractal = texture3D(WhiteNoise, pcoord).r;" 
 "	f*= 2.0;"
@@ -143,9 +145,9 @@
 "	vol = texture3D(DensityUnit, sp);"
 //"	weight = fractal_func((sp + vec3(47.117, 79.293, 67.717))*0.5);"
 //"weight = pow(weight, 2.0);"
-"weight = 0.4 * vol.a * step_size;"
-"if(weight > 0.0) weight *= fractal_func((sp + vec3(47.117, 79.293, 67.717))*0.5);"
-
+"weight = 0.5*vol.a * step_size;"
+"weight = fractal_func((sp + vec3(47.117, 79.293, 67.717))*0.1);"
+"weight = clamp((weight - 0.4)*1.25, 0.0, 1.0) * step_size * vol.a;"
 "dif_dens = acc_dens;"
 "	acc_dens += (1.0 - acc_dens) * weight;"
 "dif_dens = acc_dens - dif_dens;"
@@ -163,7 +165,7 @@
 {
 	glPushAttrib(GL_ALL_ATTRIB_BITS);
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, ifbo);
-	glViewport(0,0,512, 512);
+	glViewport(0,0,256, 256);
 	glDrawBuffer(GL_COLOR_ATTACHMENT0_EXT);
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -233,7 +235,7 @@ glEnable(GL_TEXTURE_2D);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F_ARB, 512, 512, 0, GL_RED, GL_FLOAT, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F_ARB, 256, 256, 0, GL_RED, GL_FLOAT, 0);
 	
 	
 	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, itex, 0);
@@ -253,9 +255,9 @@ glEnable(GL_TEXTURE_2D);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER);
 	
-int DENSITY_WIDTH = 40;
-int DENSITY_HEIGHT = 40;
-int DENSITY_DEPTH = 40;
+int DENSITY_WIDTH = 100;
+int DENSITY_HEIGHT = 100;
+int DENSITY_DEPTH = 100;
 
 	float *texels = malloc( DENSITY_WIDTH * DENSITY_HEIGHT * DENSITY_DEPTH * 4 * sizeof(float));
 	int u, v, w;
@@ -263,20 +265,19 @@ int DENSITY_DEPTH = 40;
 	for(w=0; w< DENSITY_DEPTH; w++) {
 		for(v=0; v< DENSITY_HEIGHT; v++) {
 			for(u=0; u< DENSITY_WIDTH; u++) {
-				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4] = 0.5+(float)(w-20)/40.f;
-				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+1] = 0.5+(float)(v-20)/40.f;
-				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+2] = 0.5-(float)(w-20)/40.f;
-				tx = u - 19.f; 
-				ty = v - 19.f; 
-				tz = w - 19.f; 
-				den = sqrt(tx*tx + ty*ty + tz*tz)/20;
+				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4] =  (float)(w)/100.f;
+				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+1] =  (float)(w)/100.f;
+				texels[(w*( DENSITY_WIDTH * DENSITY_HEIGHT)+v * DENSITY_WIDTH + u)*4+2] =  (float)(w)/100.f;
+				tx = u - 49.f; 
+				ty = v - 49.f; 
+				tz = w - 49.f; 
+				den = sqrt(tx*tx + ty*ty + tz*tz)/50;
 				
 				den = 1.0 - den;
-				den *=2;
+				den *= 4;
+				if(den >1 )den = 1;
 					
-				if(den > 1.0) {
-					den = 1;
-				}
+				
 				
 				
 				if(den < 0) den =0;
